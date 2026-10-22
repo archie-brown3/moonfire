@@ -107,3 +107,14 @@
 | 103 | charge slot allowance +2 | 31.21 | yes (marginal) |
 | 104 | charge slot allowance +3 | 30.95 | no |
 | 105 | discharge only if dearer slots in next 4 h < soc/0.5 | 31.34 | yes |
+| 106 | discharge allowance soc/0.5 + 1 | 31.21 | no |
+| 107 | discharge allowance soc/0.5 - 1 | 23.97 | no |
+| 108 | dearer-soon window 6 h | 31.26 | no |
+| 109 | discharge quantile 0.70 | 30.61 | no |
+| 110 | discharge quantile 0.78 | 30.77 | no |
+| 111 | charge quantile 0.25 | 30.88 | no |
+| 112 | charge quantile 0.17 | 30.07 | no |
+| 113 | buy below 7-day median (slot rule + margin only) | 29.92 | no |
+| 114 | 3-period smoothing on new base | 30.71 | no |
+| 115 | sell ahead of expected negative prices (never fired) | 31.34 | no (no change) |
+| 116 | margin vs min(hi, expected peak ahead) | 31.52 | yes |
