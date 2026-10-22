@@ -10,3 +10,6 @@
 | 7 | SoC-aware quantile shift (±0.1) | 14.22 | no |
 | 8 | + time-of-day filter (weekly profile rank half-day) | 22.24 | yes |
 | 9 | time-of-day filter tightened to thirds (16/32) | 22.59 | yes |
+| 10 | quantiles 0.3/0.7 with filter | 20.03 | no |
+| 11 | blend forecast 0.7 latest + 0.3 profile | 21.60 | no |
+| 12 | profile over 3 days instead of 7 | 24.01 | yes |
