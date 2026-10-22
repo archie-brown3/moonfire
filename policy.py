@@ -27,7 +27,7 @@ def decide(past_prices, soc, period, weekday):
     # the past 5 days; rank = where now sits among them (0 = cheapest, 1 = dearest)
     n = len(past_prices)
     profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 6)) / 5 for k in range(HORIZON)]
-    rank = sorted(profile[:12]).index(profile[0]) / 12  # selling only looks 6 h ahead
+    rank = sorted(profile[:8]).index(profile[0]) / 8  # selling only looks 4 h ahead
     if latest < 0:  # paid to take power: always charge
         return -1.0
     cheaper_ahead = sum(p < profile[0] for p in profile)
