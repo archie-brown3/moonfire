@@ -103,7 +103,7 @@ export function SplitBars({ rows }: { rows: { name: string; train: number; val: 
     <ChartContainer config={config} className="h-64 w-full aspect-auto">
       <BarChart data={rows} margin={{ left: 0, right: 8 }} barGap={2}>
         <CartesianGrid vertical={false} />
-        <XAxis hide dataKey="name" tickLine={false} axisLine={false} />
+        <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={8} interval={0} />
         <YAxis tickLine={false} axisLine={false} width={40} />
         <ChartTooltip content={<ChartTooltipContent formatter={(v, n) => `${n}: ${money(Number(v))}`} />} />
         <ChartLegend content={<ChartLegendContent />} />

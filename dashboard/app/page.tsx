@@ -1,53 +1,10 @@
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import {
-  CumulativeChart,
-  LoopChart,
-  PolicyBars,
-  PriceChart,
-  SimpleBars,
-  SplitBars,
-  WeekPriceChart,
-  WeekSocChart,
-} from "@/components/charts";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { PriceChart, SimpleBars } from "@/components/charts";
 import data from "@/data/dashboard.json";
-import {
-  captureBenchmarks,
-  competitors,
-  fleet,
-  judging,
-  pitchArithmetic,
-  pitfalls,
-  revenueIndex,
-  revenueMixSep26,
-  workflowSteps,
-} from "@/data/research";
-
-type Eval = { score: number; ci95?: number[]; pct_of_oracle: number | null; cycles: number; days?: number; error: string | null };
-type Results = Record<string, Record<"train" | "val" | "test", Eval>> | null;
-
-const NAMES: Record<string, string> = {
-  do_nothing: "Do nothing",
-  fixed_schedule: "Fixed schedule",
-  seed: "Seed policy",
-  champion: "Champion",
-  oracle: "Perfect foresight",
-};
-
-function Tile({ label, value, sub }: { label: string; value: string; sub?: string }) {
-  return (
-    <Card className="gap-1 py-4">
-      <CardHeader className="pb-0">
-        <CardDescription className="text-xs">{label}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl tabular-nums">{value}</div>
-        {sub ? <div className="text-xs text-muted-foreground mt-1">{sub}</div> : null}
-      </CardContent>
-    </Card>
-  );
-}
+import { captureBenchmarks, fleet, pitchArithmetic, revenueIndex, revenueMixSep26 } from "@/data/research";
+import { trainEval } from "@/lib/results";
 
 function Section({ title, kicker, children }: { title: string; kicker: string; children: React.ReactNode }) {
   return (
@@ -62,220 +19,32 @@ function Section({ title, kicker, children }: { title: string; kicker: string; c
 }
 
 export default function Home() {
-  const te = data.train_eval as Record<string, Eval>;
-  const results = data.results as Results;
-  const loop = data.loop;
-  const kept = loop.filter((r) => r.kept && r.iter > 0);
-  const champion = te.champion;
-  const seed = te.seed;
-  const last = loop[loop.length - 1];
-
-  const policyRows = [
-    ...["do_nothing", "fixed_schedule", "seed", "champion"].map((k) => ({ name: NAMES[k], score: te[k].score, pct: te[k].pct_of_oracle })),
-    { name: NAMES.oracle, score: data.oracle_train_per_day, pct: 100 },
-  ];
-
-  const splitRows = results
-    ? [
-        ...["fixed_schedule", "seed", "champion"].map((k) => ({ name: NAMES[k], train: results[k].train.score, val: results[k].val.score, test: results[k].test.score })),
-        { name: NAMES.oracle, train: data.splits.train.oracle_per_day, val: data.splits.val.oracle_per_day, test: data.splits.test.oracle_per_day },
-      ]
-    : null;
-
-  const ideaCounts = kept.length;
-  const gapToOracle = (data.oracle_train_per_day - champion.score).toFixed(1);
+  const champion = trainEval.champion;
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10 space-y-12 [&_td]:whitespace-normal [&_th]:whitespace-normal [&_td]:align-top">
-      <header className="space-y-2">
-        <div className="flex items-center gap-3">
+      <header className="max-w-[65ch] space-y-4">
+        <h1 className="text-3xl tracking-tight text-balance">A battery&apos;s earnings come down to one rule</h1>
+        <div className="space-y-4 text-base leading-relaxed">
+          <ul className="list-disc space-y-2 pl-5">
+            <li>
+              Britain has 8.5 GW of grid batteries and needs 23 to 27 GW by 2030. Every half hour, a rule decides whether each one charges,
+              discharges or waits.
+            </li>
+            <li>That rule sets the earnings. In September 2026 the average two-hour battery earned £104k per MW a year; the best earned £148k.</li>
+            <li>
+              Quants improve the rule by hand today. We automate that: each new rule is scored against perfect foresight and kept only if it also
+              wins on months the search never saw.
+            </li>
+          </ul>
+          <p>
+            <Link href="/replay" className="underline underline-offset-4 hover:text-muted-foreground">
+              Watch the search improve the rule
+            </Link>
+          </p>
         </div>
+        <p className="text-xs text-muted-foreground">Sources: Modo Energy (fleet, revenue index, September 2026); NESO (2030 need).</p>
       </header>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <Tile label="Champion, train £/MW/day" value={`£${champion.score}`} sub={`CI £${champion.ci95?.[0]} to £${champion.ci95?.[1]}`} />
-        <Tile label="Of perfect foresight" value={`${champion.pct_of_oracle}%`} sub={`seed ${seed.pct_of_oracle}%`} />
-        <Tile label="Uplift vs seed" value={`+${(100 * (champion.score / seed.score - 1)).toFixed(0)}%`} sub={`+£${(champion.score - seed.score).toFixed(1)}`} />
-        <Tile label="Cycles over train" value={`${champion.cycles}`} sub={`seed ${seed.cycles}`} />
-        <Tile label="Loop iterations" value={`${last.iter}`} sub={`${ideaCounts} kept`} />
-        <Tile
-          label="Held-out test"
-          value={results ? `£${results.champion.test.score}` : "pending"}
-          sub={results ? `${results.champion.test.pct_of_oracle}% of oracle` : "gate not run"}
-        />
-      </div>
-
-      <Section kicker="Research loop" title="Train score by iteration">
-        <div className="grid lg:grid-cols-3 gap-4">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Attempts and best kept</CardTitle>
-              <CardDescription>Gap to perfect foresight: £{gapToOracle}/MW/day</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <LoopChart data={loop} />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Ideas the loop kept</CardTitle>
-              <CardDescription>Largest gains first</CardDescription>
-            </CardHeader>
-            <CardContent className="max-h-80 overflow-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>#</TableHead>
-                    <TableHead>Idea</TableHead>
-                    <TableHead className="text-right">Gain</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {[...kept]
-                    .sort((a, b) => (b.gain ?? 0) - (a.gain ?? 0))
-                    .map((r) => (
-                      <TableRow key={r.iter}>
-                        <TableCell className="text-muted-foreground">{r.iter}</TableCell>
-                        <TableCell>{r.idea}</TableCell>
-                        <TableCell className="text-right tabular-nums">+{r.gain?.toFixed(2)}</TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </div>
-      </Section>
-
-      <Section kicker="Evaluation" title="Policies vs perfect foresight">
-        <div className="grid lg:grid-cols-2 gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Train split, £/MW/day</CardTitle>
-              <CardDescription>Oracle is exact DP, same losses and wear</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <PolicyBars rows={policyRows} />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Train, val, test</CardTitle>
-              <CardDescription>{splitRows ? "Val gates, test read once" : "Waiting for gate"}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {splitRows ? (
-                <SplitBars rows={splitRows} />
-              ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Split</TableHead>
-                      <TableHead>Window</TableHead>
-                      <TableHead className="text-right">Days</TableHead>
-                      <TableHead className="text-right">Mean £/MWh</TableHead>
-                      <TableHead className="text-right">Neg. periods</TableHead>
-                      <TableHead className="text-right">Oracle £/day</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {(["train", "val", "test"] as const).map((s) => (
-                      <TableRow key={s}>
-                        <TableCell>{s}</TableCell>
-                        <TableCell className="text-muted-foreground">{data.splits[s].range.join(" to ")}</TableCell>
-                        <TableCell className="text-right tabular-nums">{data.splits[s].days}</TableCell>
-                        <TableCell className="text-right tabular-nums">{data.splits[s].mean_price}</TableCell>
-                        <TableCell className="text-right tabular-nums">{data.splits[s].negative_periods}</TableCell>
-                        <TableCell className="text-right tabular-nums">{data.splits[s].oracle_per_day}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-        {results ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>Gate results</CardTitle>
-              
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Policy</TableHead>
-                    <TableHead className="text-right">Train</TableHead>
-                    <TableHead className="text-right">Val</TableHead>
-                    <TableHead className="text-right">Test</TableHead>
-                    <TableHead className="text-right">Test 95% CI</TableHead>
-                    <TableHead className="text-right">Test % of oracle</TableHead>
-                    <TableHead className="text-right">Test cycles</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {Object.entries(results).map(([k, r]) => (
-                    <TableRow key={k}>
-                      <TableCell>{NAMES[k] ?? k}</TableCell>
-                      <TableCell className="text-right tabular-nums">{r.train.score}</TableCell>
-                      <TableCell className="text-right tabular-nums">{r.val.score}</TableCell>
-                      <TableCell className="text-right tabular-nums">{r.test.score}</TableCell>
-                      <TableCell className="text-right tabular-nums">{r.test.ci95?.join(" to ")}</TableCell>
-                      <TableCell className="text-right tabular-nums">{r.test.pct_of_oracle}</TableCell>
-                      <TableCell className="text-right tabular-nums">{r.test.cycles}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        ) : null}
-      </Section>
-
-      <Section kicker="Behaviour" title="Champion behaviour">
-        <div className="grid lg:grid-cols-2 gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Cumulative revenue, train</CardTitle>
-              <CardDescription>Champion vs seed</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <CumulativeChart data={data.daily} />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>One week of dispatch</CardTitle>
-              <CardDescription>Last train week, from {data.week[0].date}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <WeekPriceChart data={data.week} />
-              <WeekSocChart data={data.week} />
-            </CardContent>
-          </Card>
-        </div>
-        <div className="grid lg:grid-cols-3 gap-4">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>GB prices</CardTitle>
-              <CardDescription>Daily mean and range, val and test shaded</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <PriceChart data={data.price_days} splits={data.splits} />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Champion rule</CardTitle>
-              <CardDescription>Evolve block</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <pre className="text-[11px] leading-snug overflow-auto max-h-96 font-mono whitespace-pre">{data.evolve_block}</pre>
-            </CardContent>
-          </Card>
-        </div>
-      </Section>
 
       <Section kicker="Market" title="GB market">
         <div className="grid lg:grid-cols-3 gap-4">
@@ -337,126 +106,15 @@ export default function Home() {
             </CardContent>
           </Card>
         </div>
-      </Section>
-
-      <Section kicker="Competition" title="Competitors">
         <Card>
           <CardHeader>
-            <CardTitle>No published percent-of-perfect, no automated loop</CardTitle>
-            <CardDescription>Vendor claims</CardDescription>
+            <CardTitle>GB prices, Oct 2025 to Oct 2026</CardTitle>
+            <CardDescription>Daily mean and range. Validation and test months shaded.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Product</TableHead>
-                  <TableHead>Commercial model</TableHead>
-                  <TableHead>Dispatch approach</TableHead>
-                  <TableHead>Uplift claim</TableHead>
-                  <TableHead>Continuous improvement</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {competitors.map((c) => (
-                  <TableRow key={c.name}>
-                    <TableCell className="whitespace-nowrap">{c.name}</TableCell>
-                    <TableCell>{c.model}</TableCell>
-                    <TableCell>{c.approach}</TableCell>
-                    <TableCell>{c.claim}</TableCell>
-                    <TableCell>{c.loop}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <PriceChart data={data.price_days} splits={data.splits} />
           </CardContent>
         </Card>
-      </Section>
-
-      <Section kicker="Adoption" title="Adoption">
-        <div className="grid lg:grid-cols-2 gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Quant workflow</CardTitle>
-              <CardDescription>From job ads</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableBody>
-                  {workflowSteps.map((s) => (
-                    <TableRow key={s.step}>
-                      <TableCell>{s.step}</TableCell>
-                      <TableCell className="text-right">
-                        <Badge variant={s.automated ? "default" : "outline"}>{s.automated ? "automated by the loop" : "human"}</Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Pitfalls and design answers</CardTitle>
-              
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Pitfall</TableHead>
-                    <TableHead>In this evaluator</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {pitfalls.map((p) => (
-                    <TableRow key={p.pitfall}>
-                      <TableCell>{p.pitfall}</TableCell>
-                      <TableCell>{p.design}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </div>
-        <div className="grid lg:grid-cols-2 gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Simulator spec</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableBody>
-                  <TableRow><TableCell>Power / capacity</TableCell><TableCell className="tabular-nums">{data.spec.power_mw} MW / {data.spec.capacity_mwh} MWh</TableCell></TableRow>
-                  <TableRow><TableCell>Round-trip efficiency</TableCell><TableCell className="tabular-nums">{data.spec.efficiency * 100}%</TableCell></TableRow>
-                  <TableRow><TableCell>Degradation cost</TableCell><TableCell className="tabular-nums">£{data.spec.degradation_gbp_per_mwh}/MWh moved</TableCell></TableRow>
-                  <TableRow><TableCell>Step</TableCell><TableCell>half-hour settlement period, APX market index</TableCell></TableRow>
-                  <TableRow><TableCell>Policy sees</TableCell><TableCell>strictly past prices, SoC, period, weekday</TableCell></TableRow>
-                  <TableRow><TableCell>Scores zero</TableCell><TableCell>crash, timeout, non-math import, literal date, non-finite power</TableCell></TableRow>
-                  <TableRow><TableCell>Not modelled yet</TableCell><TableCell>EV plug-in windows, departure targets, ancillary services, BM, intraday</TableCell></TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Judging criteria</CardTitle>
-              <CardDescription>Equal weights</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableBody>
-                  {judging.map((j) => (
-                    <TableRow key={j.criterion}>
-                      <TableCell>{j.criterion}</TableCell>
-                      <TableCell className="text-right tabular-nums">{j.weight}%</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </div>
       </Section>
     </main>
   );

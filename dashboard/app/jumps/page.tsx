@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
+import { PolicyBars, SplitBars } from "@/components/charts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import replay from "@/data/replay.json";
+import { policyRows, splitRows } from "@/lib/results";
 import { SERIES } from "@/lib/series";
 
 export const metadata: Metadata = { title: "Biggest jumps" };
@@ -21,6 +30,7 @@ export default function JumpsPage() {
   const tried = rows.length - 1;
   const top = jumps.reduce((s, j) => s + j.gain, 0);
   const max = jumps[0].gain;
+  const split = splitRows();
 
   // Kept ideas that raised the best score, the same rule the replay's blue line follows.
   let best = rows[0].score;
@@ -75,6 +85,40 @@ export default function JumpsPage() {
         The other {steps - jumps.length} steps added{" "}
         {money(replay.total_gain - top)} between them.
       </p>
+
+      <section className="space-y-4">
+        <h2 className="text-xl tracking-tight">How the final rule compares</h2>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Train months, £ per MW per day</CardTitle>
+              <CardDescription>
+                Against simple rules and the perfect-foresight ceiling.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <PolicyBars rows={policyRows()} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Train, validation and test</CardTitle>
+              <CardDescription>
+                Validation decides promotion. Test months are scored once.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {split ? (
+                <SplitBars rows={split} />
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Waiting for gate.py to run.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </section>
     </main>
   );
 }
