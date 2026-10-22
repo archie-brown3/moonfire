@@ -20,7 +20,7 @@ def decide(past_prices, soc, period, weekday):
     if len(past_prices) < LOOKBACK:
         return 0.0
     window = sorted(past_prices[-LOOKBACK:])
-    latest = past_prices[-1]
+    latest = (past_prices[-1] + past_prices[-2]) / 2  # smooth out single-period noise
     lo = window[int(CHARGE_PCT * (LOOKBACK - 1))]
     hi = window[int(DISCHARGE_PCT * (LOOKBACK - 1))]
     # time-of-day filter: this half-hour's mean price over the past 2 days, ranked within the day

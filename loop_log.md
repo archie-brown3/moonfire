@@ -31,3 +31,7 @@
 | 28 | profile from yesterday + same day last week | 23.34 | no |
 | 29 | filter quarters (12/36) | 24.69 | no |
 | 30 | filter widened (20/28) | 26.33 | yes |
+| 31 | filter even split (24/24) | 25.21 | no |
+| 32 | momentum: discharge only if latest >= previous | 24.13 | no |
+| 33 | momentum: charge only if latest <= previous | 25.35 | no |
+| 34 | smooth latest over last 2 periods | 27.54 | yes |
