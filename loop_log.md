@@ -102,3 +102,6 @@
 | 98 | discharge rank over 4 h ahead | 30.88 | yes |
 | 99 | discharge rank over 3 h ahead | 30.41 | no |
 | 100 | charge horizon 10 h (20) | 31.19 | yes |
+| 101 | charge horizon 12 h (24) | 30.54 | no |
+| 102 | charge horizon 11 h (22) | 30.79 | no |
+| 103 | charge slot allowance +2 | 31.21 | yes (marginal) |

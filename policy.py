@@ -32,7 +32,7 @@ def decide(past_prices, soc, period, weekday):
         return -1.0
     cheaper_ahead = sum(p < profile[0] for p in profile)
     room = (2 - soc) / 0.5  # half-hours of charging needed to fill
-    if latest <= lo and cheaper_ahead < room + 1 and hi - latest / 0.9 > 20:  # spread must cover losses + wear
+    if latest <= lo and cheaper_ahead < room + 2 and hi - latest / 0.9 > 20:  # spread must cover losses + wear
         return -1.0
     if latest >= hi and rank > 0.55:
         return 1.0
