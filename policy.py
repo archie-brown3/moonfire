@@ -23,9 +23,13 @@ def decide(past_prices, soc, period, weekday):
     latest = past_prices[-1]
     lo = window[int(CHARGE_PCT * (LOOKBACK - 1))]
     hi = window[int(DISCHARGE_PCT * (LOOKBACK - 1))]
-    if latest <= lo:
+    # time-of-day filter: this half-hour's mean price over the past week, ranked within the day
+    n = len(past_prices)
+    profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 8)) / 7 for k in range(48)]
+    rank = sorted(profile).index(profile[0])
+    if latest <= lo and rank < 24:
         return -1.0
-    if latest >= hi:
+    if latest >= hi and rank >= 24:
         return 1.0
     return 0.0
 # EVOLVE-BLOCK-END
