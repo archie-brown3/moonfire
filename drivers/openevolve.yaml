@@ -1,0 +1,47 @@
+# OpenEvolve config for the policy search. The driver (drivers/openevolve_driver.py)
+# sets llm.api_key from GEMINI_API_KEY in .env and prompt.system_message from program.md.
+# Never put a key in this file.
+
+max_iterations: 50
+checkpoint_interval: 5
+log_level: INFO
+language: python
+diff_based_evolution: true
+enforce_evolve_blocks: true
+max_code_length: 4000
+
+llm:
+  api_base: "https://generativelanguage.googleapis.com/v1beta/openai/"
+  primary_model: "gemini-2.5-pro"
+  primary_model_weight: 0.8
+  secondary_model: "gemini-2.5-flash"
+  secondary_model_weight: 0.2
+  temperature: 0.7
+  max_tokens: 4096
+  timeout: 120
+  retries: 3
+  retry_delay: 5
+  # Alternative with no API key: use the logged-in Claude Code CLI instead.
+  # provider: "claude_code"
+  # models:
+  #   - name: "sonnet"
+  #     weight: 1.0
+  #     max_tokens: 8000
+  #     max_budget_usd: 1.0
+
+prompt:
+  num_top_programs: 3
+  num_diverse_programs: 2
+  include_artifacts: true
+
+database:
+  population_size: 20
+  num_islands: 2
+  archive_size: 10
+  feature_dimensions: ["complexity", "diversity"]
+
+evaluator:
+  timeout: 10
+  cascade_evaluation: false
+  parallel_evaluations: 2
+  enable_artifacts: true
