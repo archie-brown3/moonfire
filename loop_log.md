@@ -35,3 +35,8 @@
 | 32 | momentum: discharge only if latest >= previous | 24.13 | no |
 | 33 | momentum: charge only if latest <= previous | 25.35 | no |
 | 34 | smooth latest over last 2 periods | 27.54 | yes |
+| 35 | smooth over 3 periods | 27.48 | no |
+| 36 | negative check on raw latest price | 27.50 | no |
+| 37 | charge quantile 0.25 | 26.82 | no |
+| 38 | charge quantile 0.15 | 26.59 | no |
+| 39 | rank now within next 12h of profile (not whole day) | 28.20 | yes |
