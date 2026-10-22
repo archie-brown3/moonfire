@@ -124,6 +124,15 @@ export default function Home() {
         <Tile label="Confidence interval, train" value={`£${champion.ci95?.[0]} to £${champion.ci95?.[1]}`} sub="95% bootstrap over days" />
       </div>
 
+      <dl className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-3 border-y border-border py-4 text-sm">
+        <div><dt className="text-muted-foreground">Data</dt><dd>Elexon BMRS, APX market index, half-hourly</dd></div>
+        <div><dt className="text-muted-foreground">Window</dt><dd className="num">{data.splits.train.range[0]} to {data.splits.test.range[1]}</dd></div>
+        <div><dt className="text-muted-foreground">Splits, by time</dt><dd className="num">train {data.splits.train.days} d · val {data.splits.val.days} d · test {data.splits.test.days} d</dd></div>
+        <div><dt className="text-muted-foreground">Asset</dt><dd className="num">{data.spec.power_mw} MW / {data.spec.capacity_mwh} MWh, {Math.round(data.spec.efficiency * 100)}% round trip, £{data.spec.degradation_gbp_per_mwh}/MWh wear</dd></div>
+        <div><dt className="text-muted-foreground">Policy sees</dt><dd>past prices only; no forecast, no current price</dd></div>
+        <div><dt className="text-muted-foreground">Generated</dt><dd className="num">{data.generated_at.replace("T", " ")} from loop_log.md, evaluate.py, gate.py</dd></div>
+      </dl>
+
       <Section kicker="Research loop" title="Train score by iteration">
         <div className="grid lg:grid-cols-3 gap-4">
           <Card className="lg:col-span-2">
@@ -132,7 +141,7 @@ export default function Home() {
               <CardDescription>Gap to perfect foresight: £{gapToOracle}/MW/day</CardDescription>
             </CardHeader>
             <CardContent>
-              <LoopChart data={loop} />
+              <LoopChart data={loop} oracle={data.oracle_train_per_day} seed={seed.score} />
             </CardContent>
           </Card>
           <Card>
