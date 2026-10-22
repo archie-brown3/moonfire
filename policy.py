@@ -33,7 +33,7 @@ def decide(past_prices, soc, period, weekday):
     cheaper_ahead = sum(p < profile[0] for p in profile)
     room = (2 - soc) / 0.5  # half-hours of charging needed to fill
     cheap = latest <= lo or cheaper_ahead == 0  # cheap now, or the cheapest slot expected in the horizon
-    pays = min(hi, max(profile)) - latest / 0.9 > 20  # spread to the likely sale price covers losses + wear
+    pays = min(hi, max(profile)) * 0.95 - latest / 0.95 > 20  # sale vs cost per stored MWh (0.95 = sqrt(0.9) each way) covers wear
     if cheap and pays and cheaper_ahead < room + 2:  # not enough cheaper slots ahead to fill up later
         return -1.0
     dearer_soon = sum(p > profile[0] for p in profile[:9])  # selling only looks 4.5 h ahead

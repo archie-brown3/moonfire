@@ -207,3 +207,7 @@
 | 203 | dearer_soon vs max(expected now, latest) | 31.23 | no |
 | 204 | cheaper_ahead vs min(expected now, latest) | 26.87 | no |
 | 205 | discharge look-ahead 4.5 h (9) | 32.33 | yes (marginal) |
+| 206 | also cheap if below every recent price at this slot | 32.33 | no (no change) |
+| 207 | also sell if above every recent price at this slot | 32.31 | no |
+| 208 | charge horizon 10.5 h (21) | 32.27 | no |
+| 209 | margin with per-leg efficiency (0.95 each way) | 32.42 | yes |
