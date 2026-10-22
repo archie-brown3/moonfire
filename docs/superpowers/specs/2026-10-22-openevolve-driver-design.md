@@ -39,7 +39,7 @@ Invocation: `uv run --group evolve python drivers/openevolve_driver.py [--iterat
 - `prompt`: `num_top_programs: 3`, `num_diverse_programs: 2`, `include_artifacts: true` so errors reach the model.
 - `database`: `population_size: 20`, `num_islands: 2`, `archive_size: 10`, `feature_dimensions: ["complexity", "diversity"]` (OpenEvolve's built-in dimensions; no custom feature code).
 - `evaluator`: `timeout: 10`, `cascade_evaluation: false`, `parallel_evaluations: 2`.
-- `diff_based_evolution: true`, `allow_full_rewrites: false`, `max_code_length: 4000`. Edits stay inside the existing `EVOLVE-BLOCK` markers.
+- `diff_based_evolution: true`, `enforce_evolve_blocks: true`, `max_code_length: 4000`. Edits stay inside the existing `EVOLVE-BLOCK` markers.
 
 ## Guards and errors
 
