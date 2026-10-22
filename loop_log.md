@@ -120,3 +120,26 @@
 | 116 | margin vs min(hi, expected peak ahead) | 31.52 | yes |
 | 117 | charge quantile 0.25 with capped margin | 31.46 | no |
 | 118 | capped margin 15 | 31.73 | yes |
+| 119 | capped margin 10 | 31.06 | no |
+| 120 | capped margin 17 | 31.50 | no |
+| 121 | cap at 4th-highest expected slot | 31.68 | no |
+| 122 | margin vs expected peak alone (no hi cap) | 31.19 | no |
+| 123 | profile over 7 days (new base) | 30.47 | no |
+| 124 | profile over 3 days (new base) | 30.17 | no |
+| 125 | also sell at expected local peak above median | 28.90 | no |
+| 126 | remove negative-price rule | 31.64 | no |
+| 127 | dearer_soon counted vs latest price (not profile) | 29.35 | no |
+| 128 | cheaper_ahead counted vs latest price | 26.49 | no |
+| 129 | also charge when expected spread > 50 | 31.72 | no |
+| 130 | charge horizon 12 h (new base) | 31.19 | no |
+| 131 | charge horizon 9 h (18) | 31.38 | no |
+| 132 | profile days 1-5 plus 7 | 31.29 | no |
+| 133 | sell threshold q70 (margin still q75) | 31.35 | no |
+| 134 | sell threshold q80 (margin still q75) | 30.64 | no |
+| 135 | margin cap at q85 | 31.35 | no |
+| 136 | £5 tolerance on cheaper-ahead count | 29.52 | no |
+| 137 | £5 tolerance on dearer-soon count | 30.87 | no |
+| 138 | stricter charge count (+£5) | 29.54 | no |
+| 139 | separate 2-day profile for selling | 31.07 | no |
+| 140 | time-smoothed profile (±1 half-hour) | 31.34 | no |
+| 141 | buy threshold = looser of week and last-day q20 | 31.84 | yes |

@@ -21,7 +21,8 @@ def decide(past_prices, soc, period, weekday):
         return 0.0
     window = sorted(past_prices[-LOOKBACK:])
     latest = (past_prices[-1] + past_prices[-2]) / 2  # smooth out single-period noise
-    lo = window[int(CHARGE_PCT * (LOOKBACK - 1))]
+    # buy threshold: the looser of the week's and the last day's CHARGE_PCT quantile
+    lo = max(window[int(CHARGE_PCT * (LOOKBACK - 1))], sorted(past_prices[-48:])[int(CHARGE_PCT * 47)])
     hi = window[int(DISCHARGE_PCT * (LOOKBACK - 1))]
     # time-of-day filter: expected price for each of the next HORIZON half-hours = mean of the same half-hour over
     # the past 5 days
