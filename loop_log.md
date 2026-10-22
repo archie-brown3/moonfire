@@ -143,3 +143,5 @@
 | 139 | separate 2-day profile for selling | 31.07 | no |
 | 140 | time-smoothed profile (±1 half-hour) | 31.34 | no |
 | 141 | buy threshold = looser of week and last-day q20 | 31.84 | yes |
+| 142 | sell threshold = looser of week and last-day q75 | 30.09 | no |
+| 143 | day-local buy window 12 h instead of 24 h | 31.85 | yes (marginal) |
