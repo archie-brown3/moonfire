@@ -105,3 +105,5 @@
 | 101 | charge horizon 12 h (24) | 30.54 | no |
 | 102 | charge horizon 11 h (22) | 30.79 | no |
 | 103 | charge slot allowance +2 | 31.21 | yes (marginal) |
+| 104 | charge slot allowance +3 | 30.95 | no |
+| 105 | discharge only if dearer slots in next 4 h < soc/0.5 | 31.34 | yes |
