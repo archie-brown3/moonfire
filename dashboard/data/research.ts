@@ -84,5 +84,5 @@ export const pitchArithmetic = [
   { label: "By 2029 to 2030", value: "£1.3 to 1.8bn/yr", basis: "20 to 27 GW at similar unit revenue, est" },
   { label: "One capture point, GB fleet", value: "~£5.5m/yr", basis: "est" },
   { label: "One capture point, 100 MW site", value: "£65k/yr", basis: "est" },
-  { label: "Best asset vs index", value: "+30 to 45%", basis: "Modo H1 2025 and Sep 2026" },
+  { label: "Best asset vs index", value: "+42%", basis: "Modo Sep 2026; H1 2025 was 30%+" },
 ];

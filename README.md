@@ -36,7 +36,7 @@ fetch_prices.py ──> data/prices.csv ──> split by time (train / val / tes
 | `fetch_prices.py` | Half-hourly APX market index prices from Elexon's open BMRS API. No key. Drops partial edge days, interpolates untraded periods. |
 | `battery.py` | Asset spec (1 MW / 2 MWh, 90% round trip, £10/MWh degradation), simulator, time splits, exact perfect-foresight oracle. **The loop cannot edit this.** |
 | `policy.py` | `decide(past_prices, soc, period, weekday) -> MW`. **The only file the loop edits.** |
-| `evaluate.py` | Scores a policy file on a split in a guarded subprocess. The single command every loop driver calls. 0.2 s per run. |
+| `evaluate.py` | Scores a policy file on a split in a guarded subprocess. The single command every loop driver calls. Under a second per run. |
 | `baselines.py` | Do-nothing, fixed time-of-day schedule, seed rule, oracle, on every split. |
 | `gate.py` | Champion/challenger promotion on val; scores test once; writes `results/`. |
 | `program.md` | Instructions for the search agent. |
@@ -61,8 +61,8 @@ The loop only needs to do two things: edit `policy.py`, and run `uv run python e
 **Headline:** net revenue in £/MW/day over the window, with a 95% bootstrap confidence interval over days.
 **Secondary:** Percentage of Perfect (PoP), the industry's name for revenue over the perfect-foresight optimum.
 
-- **The ceiling is exact.** With 1 MW and half-hour steps, stored energy moves in 0.5 MWh units, so a five-state dynamic programme over the window gives the best any policy could do knowing every future price. It runs in a millisecond.
-- **Why £/MW/day leads.** "% of perfect foresight" scales with volatility, not skill: a calm month has a tiny denominator and bad trades can push it negative. The later windows here were two to three times more volatile than train, so both numbers are shown.
+- **The ceiling is exact.** With 1 MW and half-hour steps, stored energy moves in 0.5 MWh units, so a five-state dynamic programme over the window gives the best any policy could do knowing every future price. It runs in about 16 ms on the train window.
+- **Why £/MW/day leads.** "% of perfect foresight" scales with volatility, not skill: a calm month has a tiny denominator and bad trades can push it negative. Here the later windows were more volatile than train (mean daily price spread 1.4× and 1.7× train's) and the perfect-foresight ceiling rose 1.8× and 2.3×, so both numbers are shown.
 - **Costs are inside the simulator**, not the policy: efficiency losses, degradation per MWh moved, power and charge limits. The policy returns a request; the simulator clips it and does the accounting. It cannot misreport.
 
 ### Leakage and overfitting guards (each verified with a deliberately bad policy)
@@ -111,7 +111,7 @@ A weekly scheduled job runs the whole cycle: refetch prices, re-run the search o
 - **Different asset:** change the spec in `battery.py`.
 - **Different market** (ERCOT, NEM, Germany): change `fetch_prices.py`; endpoints for each are listed in [data/SOURCES.md](data/SOURCES.md).
 - **Different search framework:** write a driver that calls `evaluate.py`.
-- **Cost:** evaluation is 0.2 s; the LLM is the only expense, and it is bounded by iteration count.
+- **Cost:** an evaluation takes under a second; the LLM is the only expense, and it is bounded by iteration count.
 
 ## Reproduce
 

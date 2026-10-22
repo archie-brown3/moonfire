@@ -14,7 +14,7 @@ Today that rule is improved by humans. Habitat, Tesla, EDF: a quant has an idea,
 
 **What we built (35 s)**
 
-We are the optimiser firm, and this is the engine. One Python file is the dispatch rule. A sealed simulator replays it against a year of real half-hourly prices from Elexon, with efficiency losses, degradation and power limits inside the simulator so the rule can't misreport. An AI agent proposes one change, scores it, keeps it if it wins, reverts if not, and commits. It ran 249 experiments in two hours at a fifth of a second each.
+We are the optimiser firm, and this is the engine. One Python file is the dispatch rule. A sealed simulator replays it against a year of real half-hourly prices from Elexon, with efficiency losses, degradation and power limits inside the simulator so the rule can't misreport. An AI agent proposes one change, scores it, keeps it if it wins, reverts if not, and commits. It ran 249 experiments in about half an hour, each scored in under a second.
 
 The part that matters: the rule only ever sees the past. The current price is a settlement price, known after the fact. No lookahead, no literal dates, no imports except `math`, every one of those enforced by code and tested with a deliberately cheating policy.
 
@@ -51,7 +51,7 @@ Every optimiser in this market sells "we trade smarter". None of them can show y
 | Our asset | 1 MW / 2 MWh, 90% round trip, £10/MWh degradation | battery.py |
 | Data | Elexon APX, 2 Oct 2025 to 15 Oct 2026, 18,192 half-hours | fetch_prices.py |
 | Splits | train 242 d, val 61 d, test 75 d, by time | battery.py |
-| Evaluator speed | 0.2 s | evaluate.py |
+| Evaluator speed | under 1 s per run (oracle 16 ms) | evaluate.py |
 | Experiments | 249 | loop_log.md |
 | Seed vs loop, train | £15.4 vs £32 /MW/day | baselines |
 | Seed vs loop, test | £55.1 vs £71 /MW/day, 46% of oracle | gate.py |
@@ -63,7 +63,7 @@ Every optimiser in this market sells "we trade smarter". None of them can show y
 **Isn't a one-number loop just going to overfit the backtest?**
 Yes, that's the documented failure of LLM-evolved trading strategies, and it's why the loop never touches val or test. Promotion needs a val win; test is read once. The table shows the train/test gap rather than hiding it. Our next step is a paired daily test against the champion so a change has to beat noise, not just the mean.
 
-**Why is it only 45% of perfect foresight when the industry says 75?**
+**Why is it only 46% of perfect foresight when the industry says 60 to 80?**
 Three reasons, all in the README. Our rule sees no forecast and not even the current price; the industry has day-ahead feeds. We trade one market; they stack frequency response and the Balancing Mechanism. And PoP scales with volatility, which is why we lead with £/MW/day. The point isn't the absolute number, it's that ours is reproducible and theirs isn't.
 
 **Why not use OpenEvolve or LoongFlow?**
