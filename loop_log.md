@@ -14,3 +14,7 @@
 | 11 | blend forecast 0.7 latest + 0.3 profile | 21.60 | no |
 | 12 | profile over 3 days instead of 7 | 24.01 | yes |
 | 13 | profile over 2 days | 24.12 | yes |
+| 14 | profile over 1 day | 18.49 | no |
+| 15 | lookback 4 days (192) with filter | 23.19 | no |
+| 16 | lookback 10 days (480) with filter | 22.47 | no |
+| 17 | always charge on negative latest price | 25.12 | yes |

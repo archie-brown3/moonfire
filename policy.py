@@ -27,6 +27,8 @@ def decide(past_prices, soc, period, weekday):
     n = len(past_prices)
     profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 3)) / 2 for k in range(48)]
     rank = sorted(profile).index(profile[0])
+    if latest < 0:  # paid to take power: always charge
+        return -1.0
     if latest <= lo and rank < 16:
         return -1.0
     if latest >= hi and rank >= 32:
