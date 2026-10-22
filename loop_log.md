@@ -25,3 +25,9 @@
 | 22 | charge quantile 0.3 with margin | 25.12 | no |
 | 23 | discharge quantile 0.85 | 23.39 | no |
 | 24 | discharge quantile 0.75 | 26.03 | yes |
+| 25 | discharge quantile 0.70 | 24.85 | no |
+| 26 | lookback 2 days with current rules | 24.53 | no |
+| 27 | full battery (soc>1.5) sells above median in dear third | 25.26 | no |
+| 28 | profile from yesterday + same day last week | 23.34 | no |
+| 29 | filter quarters (12/36) | 24.69 | no |
+| 30 | filter widened (20/28) | 26.33 | yes |

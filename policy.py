@@ -29,9 +29,9 @@ def decide(past_prices, soc, period, weekday):
     rank = sorted(profile).index(profile[0])
     if latest < 0:  # paid to take power: always charge
         return -1.0
-    if latest <= lo and rank < 16 and 0.9 * hi - latest > 20:  # spread must cover losses + wear
+    if latest <= lo and rank < 20 and 0.9 * hi - latest > 20:  # spread must cover losses + wear
         return -1.0
-    if latest >= hi and rank >= 32:
+    if latest >= hi and rank >= 28:
         return 1.0
     return 0.0
 # EVOLVE-BLOCK-END
