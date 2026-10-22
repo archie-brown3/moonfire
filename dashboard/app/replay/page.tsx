@@ -20,8 +20,9 @@ export default function ReplayPage() {
       <section className="max-w-3xl space-y-2 text-sm leading-relaxed">
         <h2 className="text-base">The rule, in plain terms</h2>
         <p>
-          The rule sees only past prices and how full the battery is. Every half
-          hour it does one of three things:
+          The rule tells one grid battery, every half hour, whether to buy power
+          (charge), sell it (discharge) or wait, using only the prices it has
+          already seen and how full it is:
         </p>
         <ul className="list-disc space-y-1 pl-5">
           <li>
