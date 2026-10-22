@@ -16,7 +16,6 @@ CHARGE_PCT = 0.20      # charge when the latest price is below this quantile of 
 DISCHARGE_PCT = 0.75   # discharge when above this quantile
 HORIZON = 12           # half-hours ahead (6 h) the time-of-day filter looks
 
-
 def decide(past_prices, soc, period, weekday):
     if len(past_prices) < LOOKBACK:
         return 0.0
@@ -33,7 +32,7 @@ def decide(past_prices, soc, period, weekday):
         return -1.0
     if latest <= lo and rank < 0.5 and 0.9 * hi - latest > 20:  # spread must cover losses + wear
         return -1.0
-    if latest >= hi and rank > 0.45:
+    if latest >= hi and rank > 0.55:
         return 1.0
     return 0.0
 # EVOLVE-BLOCK-END

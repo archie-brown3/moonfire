@@ -47,5 +47,7 @@
 | 44 | charge rank threshold 0.6 | 28.57 | no |
 | 45 | discharge rank threshold 0.65 | 29.09 | no |
 | 46 | discharge rank threshold 0.45 | 29.06 | no |
-| 47 | profile over 3 days (with 6h horizon) | 29.19 | yes (marginal) |
+| 47 | profile over 3 days (+ discharge rank 0.45 carried over by a failed revert) | 29.19 | yes (marginal) |
 | 48 | profile over 5 days | 29.86 | yes |
+| 49 | profile over 7 days | 29.34 | no |
+| 50 | discharge rank back to 0.55 (with 5-day profile) | 30.23 | yes |
