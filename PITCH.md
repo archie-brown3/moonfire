@@ -1,6 +1,6 @@
 # Pitch: autoresearch for battery dispatch
 
-Three minutes, one speaker, one screen. Numbers in [brackets] get filled from `results/results.md` after `gate.py` runs.
+Three minutes, one speaker, one screen. Numbers in brackets get filled from `results/results.md` after `gate.py` runs.
 
 ---
 
@@ -14,7 +14,7 @@ Today that rule is improved by humans. Habitat, Tesla, EDF: a quant has an idea,
 
 **What we built (35 s)**
 
-We are the optimiser firm, and this is the engine. One Python file is the dispatch rule. A sealed simulator replays it against a year of real half-hourly prices from Elexon, with efficiency losses, degradation and power limits inside the simulator so the rule can't misreport. An AI agent proposes one change, scores it, keeps it if it wins, reverts if not, and commits. It ran [83] experiments in two hours at a fifth of a second each.
+We are the optimiser firm, and this is the engine. One Python file is the dispatch rule. A sealed simulator replays it against a year of real half-hourly prices from Elexon, with efficiency losses, degradation and power limits inside the simulator so the rule can't misreport. An AI agent proposes one change, scores it, keeps it if it wins, reverts if not, and commits. It ran 249 experiments in two hours at a fifth of a second each.
 
 The part that matters: the rule only ever sees the past. The current price is a settlement price, known after the fact. No lookahead, no literal dates, no imports except `math`, every one of those enforced by code and tested with a deliberately cheating policy.
 
@@ -22,11 +22,11 @@ And a new rule is promoted only if it also wins on two months the search never s
 
 **The result (30 s)**
 
-[Show the results table.]
+Show the results table.
 
-The seed rule earned £15 per megawatt per day on the training months. The loop took it to [£30]. On the held-out test window it went from [£55] to [£59], at [X]% of perfect foresight. The industry calls that Percentage of Perfect. Optimisers quote 60 to 80, but every vendor picks its own benchmark. Ours is a five-line dynamic programme anyone can run.
+The seed rule earned £15 per megawatt per day on the training months. The loop took it to £32. On the held-out test window it went from £55 to £71, at 46% of perfect foresight. The industry calls that Percentage of Perfect. Optimisers quote 60 to 80, but every vendor picks its own benchmark. Ours is a five-line dynamic programme anyone can run.
 
-[Show the test week plot.] This is a week it never trained on. Green is where it charged, red where it sold. It bought the overnight trough and sold the evening peak without being told either exists.
+Show the test week plot. This is a week it never trained on. Green is where it charged, red where it sold. It bought the overnight trough and sold the evening peak without being told either exists.
 
 **Deployment (20 s)**
 
@@ -52,9 +52,9 @@ Every optimiser in this market sells "we trade smarter". None of them can show y
 | Data | Elexon APX, 2 Oct 2025 to 15 Oct 2026, 18,192 half-hours | fetch_prices.py |
 | Splits | train 242 d, val 61 d, test 75 d, by time | battery.py |
 | Evaluator speed | 0.2 s | evaluate.py |
-| Experiments | [83] | loop_log.md |
-| Seed vs loop, train | £15.4 vs [£30] /MW/day | baselines |
-| Seed vs loop, test | £55.1 vs [£59] /MW/day, [X]% of oracle | gate.py |
+| Experiments | 249 | loop_log.md |
+| Seed vs loop, train | £15.4 vs £32 /MW/day | baselines |
+| Seed vs loop, test | £55.1 vs £71 /MW/day, 46% of oracle | gate.py |
 
 ---
 

@@ -80,9 +80,21 @@ The loop only needs to do two things: edit `policy.py`, and run `uv run python e
 
 ## Results
 
-_Filled in by `gate.py` at the end of the run; see `results/results.md`._
+Champion promoted on val (£61.62 vs seed £46.90), then scored once on the held-out test window (1 Aug to 14 Oct 2026). £/MW/day, 1 MW / 2 MWh asset.
 
-RESULTS_TABLE
+| policy | train £/MW/day | val £/MW/day | test £/MW/day | test 95% CI | test % of oracle | test cycles |
+|---|---|---|---|---|---|---|
+| do_nothing | 0.0 | 0.0 | 0.0 | 0.0–0.0 | 0.0 | 0.0 |
+| fixed_schedule | 11.13 | 9.1 | 34.07 | 17.21–52.62 | 22.3 | 71.0 |
+| seed | 15.39 | 46.9 | 55.11 | 20.93–87.6 | 36.1 | 50.6 |
+| champion | 32.42 | 61.62 | 70.64 | 40.59–101.55 | 46.3 | 33.8 |
+| perfect foresight | 64.9 | 115.2 | 152.5 | – | 100 | – |
+
+On three months the search never saw, the champion earns **£70.64/MW/day against the seed's £55.11 (+28%)**, at **46.3% of perfect foresight**, while cycling a third less. Train roughly doubled (£15.4 to £32.4); the smaller test gain is the honest out-of-sample number.
+
+![Search trajectory: 249 experiments, kept vs rejected, against the perfect-foresight ceiling](results/loop.png)
+
+![Held-out test week: prices, champion charge and discharge, state of charge](results/test_week.png)
 
 ## Deployment
 

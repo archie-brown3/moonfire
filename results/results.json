@@ -1,0 +1,166 @@
+{
+ "do_nothing": {
+  "train": {
+   "score": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "pct_of_oracle": 0.0,
+   "revenue": 0.0,
+   "oracle": 15716.87,
+   "cycles": 0.0,
+   "days": 242,
+   "error": null
+  },
+  "val": {
+   "score": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "pct_of_oracle": 0.0,
+   "revenue": 0.0,
+   "oracle": 7026.1,
+   "cycles": 0.0,
+   "days": 61,
+   "error": null
+  },
+  "test": {
+   "score": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "pct_of_oracle": 0.0,
+   "revenue": 0.0,
+   "oracle": 11438.2,
+   "cycles": 0.0,
+   "days": 75,
+   "error": null
+  }
+ },
+ "fixed_schedule": {
+  "train": {
+   "score": 11.13,
+   "ci95": [
+    4.6,
+    18.25
+   ],
+   "pct_of_oracle": 17.1,
+   "revenue": 2693.31,
+   "oracle": 15716.87,
+   "cycles": 229.4,
+   "days": 242,
+   "error": null
+  },
+  "val": {
+   "score": 9.1,
+   "ci95": [
+    -10.13,
+    32.64
+   ],
+   "pct_of_oracle": 7.9,
+   "revenue": 555.07,
+   "oracle": 7026.1,
+   "cycles": 57.7,
+   "days": 61,
+   "error": null
+  },
+  "test": {
+   "score": 34.07,
+   "ci95": [
+    17.21,
+    52.62
+   ],
+   "pct_of_oracle": 22.3,
+   "revenue": 2555.54,
+   "oracle": 11438.2,
+   "cycles": 71.0,
+   "days": 75,
+   "error": null
+  }
+ },
+ "seed": {
+  "train": {
+   "score": 15.39,
+   "ci95": [
+    1.37,
+    30.24
+   ],
+   "pct_of_oracle": 23.7,
+   "revenue": 3725.39,
+   "oracle": 15716.87,
+   "cycles": 157.0,
+   "days": 242,
+   "error": null
+  },
+  "val": {
+   "score": 46.9,
+   "ci95": [
+    18.49,
+    72.75
+   ],
+   "pct_of_oracle": 40.7,
+   "revenue": 2860.92,
+   "oracle": 7026.1,
+   "cycles": 39.9,
+   "days": 61,
+   "error": null
+  },
+  "test": {
+   "score": 55.11,
+   "ci95": [
+    20.93,
+    87.6
+   ],
+   "pct_of_oracle": 36.1,
+   "revenue": 4133.5,
+   "oracle": 11438.2,
+   "cycles": 50.6,
+   "days": 75,
+   "error": null
+  }
+ },
+ "champion": {
+  "train": {
+   "score": 32.42,
+   "ci95": [
+    22.26,
+    44.0
+   ],
+   "pct_of_oracle": 49.9,
+   "revenue": 7845.15,
+   "oracle": 15716.87,
+   "cycles": 91.1,
+   "days": 242,
+   "error": null
+  },
+  "val": {
+   "score": 61.62,
+   "ci95": [
+    34.86,
+    87.65
+   ],
+   "pct_of_oracle": 53.5,
+   "revenue": 3758.69,
+   "oracle": 7026.1,
+   "cycles": 27.7,
+   "days": 61,
+   "error": null
+  },
+  "test": {
+   "score": 70.64,
+   "ci95": [
+    40.59,
+    101.55
+   ],
+   "pct_of_oracle": 46.3,
+   "revenue": 5298.33,
+   "oracle": 11438.2,
+   "cycles": 33.8,
+   "days": 75,
+   "error": null
+  }
+ }
+}
