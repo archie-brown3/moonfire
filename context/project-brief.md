@@ -1,6 +1,6 @@
 # Project brief: battery-dispatch autoresearch
 
-*Status as of 18:55 BST, 22 Oct 2026. Deadline 19:30. Companion to the hack brief in `moonfire-ventures-hack.md` and the working rules in `../AGENTS.md`.*
+*Status as of 18:55 BST, 22 Oct 2026. Deadline 19:30. Companion to the hack brief in `moonfire-ventures-hack.md` and the working rules in `../README.md` and `../program.md`.*
 
 ## What we are building
 
@@ -40,7 +40,7 @@ Remaining by 19:30: run gate.py, paste results into README, one plot, fold resea
 
 If you are an agent joining this repo:
 
-- Read `../AGENTS.md` for conventions and the evaluator rules, then this file for why.
+- Read `../README.md` for the pipeline and evaluator rules and `../program.md` for the loop's rules, then this file for why.
 - The only file the search loop may edit is `policy.py`; `program.md` is its instruction set.
 - `battery.py` is the authority on physics and money. Do not move constraints into the policy.
 - Never run `evaluate.py --split val` or `--split test` from a search loop. `gate.py` is the only reader of those splits.

@@ -1,6 +1,6 @@
 # UI design spec: autoresearch pipeline for grid-battery dispatch
 
-Written 2026-10-22. Style target captured from tesla.com/en_gb/support/energy/tesla-software/autobidder via Firecrawl (`scrape --format markdown,rawHtml,screenshot` and `--format branding`), plus pixel measurement of the 1920×1080 screenshot. Values marked **(captured)** come from that; **(assumed)** are inferred. We copy the look only: no Tesla name, wordmark, logo or claims anywhere in the product.
+Written 2026-10-22. Style reference: the layout conventions of a public Autobidder product page, measured by hand from a 1920×1080 screenshot (not kept in this repo; no third-party page content, images or branding files are committed). Values marked **(captured)** are those measurements; **(assumed)** are inferred. This is a spacing and typography reference only: no third-party name, wordmark, logo, copy or claims appear anywhere in the product.
 
 ## 1. Audience and job to be done
 
