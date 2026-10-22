@@ -4,7 +4,7 @@ Every row of the log becomes one frame. Kept ideas step the best-so-far line up 
 policy.py that the loop committed for that score (from `git log --grep=loop:`), so the rule can be
 watched evolving next to the chart. Pure function of the log and the git history; no randomness.
 
-    uv run python plot_replay.py            # writes results/replay.html
+    uv run python plot_replay.py            # writes results/replay.html and dashboard/data/replay.json
 """
 
 import difflib
@@ -14,7 +14,28 @@ import subprocess
 
 LOG = "loop_log.md"
 OUT = "results/replay.html"
+DASH_OUT = "dashboard/data/replay.json"
 ORACLE_PER_DAY = 64.95  # perfect-foresight LP on the train split, £/MW/day (evaluate.py: oracle / days)
+TOP_JUMPS = 5
+# Plain-English headline per big jump, written from that iteration's policy.py diff.
+JUMP_NOTES = {
+    3: "Compare each price with the last week, not the last two days",
+    8: "Buy only in the usually cheaper half of the day, sell only in the dearer half",
+    12: "Work out the usual day from the last 3 days instead of 7",
+    34: "Average the last two half-hours, so one spike can't trigger a trade",
+    17: "Always charge when the price goes negative",
+}
+
+
+def biggest_jumps(rows: list[dict]) -> list[dict]:
+    best, jumps = rows[0]["score"], []
+    for r in rows[1:]:
+        if r["kept"] and r["score"] > best:
+            jumps.append({"iter": r["iter"], "idea": r["idea"], "before": best, "after": r["score"],
+                          "gain": round(r["score"] - best, 2),
+                          "headline": JUMP_NOTES.get(r["iter"], r["idea"])})
+            best = r["score"]
+    return sorted(jumps, key=lambda j: -j["gain"])[:TOP_JUMPS]
 
 
 def evolve_block(src: str) -> list[str]:
@@ -77,8 +98,13 @@ def main() -> None:
     data = {"rows": rows, "code_at": code_at, "versions": versions, "oracle": ORACLE_PER_DAY}
     html = TEMPLATE.replace("__DATA__", json.dumps(data))
     open(OUT, "w").write(html)
+    best = max(r["score"] for r in rows if r["kept"])
+    dash = {**data, "seed": rows[0]["score"], "best": best, "total_gain": round(best - rows[0]["score"], 2),
+            "jumps": biggest_jumps(rows)}
+    with open(DASH_OUT, "w") as f:
+        json.dump(dash, f, indent=1)
     kept = sum(r["kept"] for r in rows) - 1
-    print(f"{OUT}: {len(rows) - 1} ideas, {kept} kept, {len(programs)} program versions")
+    print(f"{OUT}, {DASH_OUT}: {len(rows) - 1} ideas, {kept} kept, {len(programs)} program versions")
 
 
 TEMPLATE = r"""<!doctype html>
