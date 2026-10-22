@@ -89,7 +89,6 @@ export default function Home() {
     <main className="mx-auto max-w-7xl px-6 py-10 space-y-12 [&_td]:whitespace-normal [&_th]:whitespace-normal [&_td]:align-top">
       <header className="space-y-2">
         <div className="flex items-center gap-3">
-          <h1 className="font-bold text-xl font-mono">Tesla Autobidder</h1>
         </div>
       </header>
 
