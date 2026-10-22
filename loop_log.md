@@ -87,3 +87,8 @@
 | 84 | profile from same day-type (weekday/weekend) in past week | 29.64 | no |
 | 85 | discharge rank 0.6 (on top of day-type profile, which commit 8f2dde6 had captured) | 29.80 | no |
 | - | restore best policy from af18c94 after 8f2dde6 captured losing iter-84 variant | 30.50 | restored |
+| 86 | discharge rank 0.6 | 30.36 | no |
+| 87 | discharge rank 0.5 (identical to 0.55 at HORIZON 16) | 30.50 | no (no change) |
+| 88 | discharge on max(smoothed, raw) price | 30.41 | no |
+| 89 | charge on min(smoothed, raw) price | 30.12 | no |
+| 90 | margin as hi - latest/0.9 > 20 | 30.63 | yes |
