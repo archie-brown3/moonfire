@@ -32,9 +32,9 @@ Done and committed: data fetcher, simulator, oracle, evaluator, baselines, gate,
 
 Baselines (£/MW/day, % of oracle): seed 15.4 / 24% train, 46.9 / 41% val, 55.1 / 36% test. Fixed schedule 11.1 / 17% train. Oracle 64.9, 115.2, 152.5.
 
-Running: `search-loop` tab iterating on policy.py against train until 19:08. `research-products`, `research-market`, `research-workflow` tabs writing reports to the scratchpad.
+Search loop finished. `research-products`, `research-market`, `research-workflow` tabs writing reports to the scratchpad.
 
-Remaining by 19:30: run gate.py, paste results into README, one plot, fold research into the use-case section, update the artifact (https://claude.ai/artifact/8S3zMxMdjjx167JeQUGEo6), final commit.
+Done by 19:35: loop stopped at 249 experiments (39 kept, plateau at £32.42 train). gate.py promoted the champion on val (£61.62 vs £46.90) and scored test once: £70.64/MW/day vs seed £55.11, 46.3% of perfect foresight. Results, charts, dashboard data, pitch and deck filled from those outputs.
 
 ## Agent orientation
 

@@ -26,7 +26,8 @@ def main(extra: list[str]) -> None:
     for name, src in BASELINES.items():
         paths[name] = os.path.join(tmp, f"{name}.py")
         open(paths[name], "w").write(src)
-    paths["seed"] = "policy.py"
+    paths["seed"] = "seed_policy.py"
+    paths["policy.py (current)"] = "policy.py"
     for p in extra:
         paths[p] = p
     splits = list(battery.SPLITS)

@@ -41,8 +41,16 @@ fetch_prices.py ──> data/prices.csv ──> split by time (train / val / tes
 | `gate.py` | Champion/challenger promotion on val; scores test once; writes `results/`. |
 | `program.md` | Instructions for the search agent. |
 | `seed_policy.py` | Frozen copy of the starting rule, for the report. |
+| `loop_log.md` | Every experiment the search ran: idea, train score, kept or not. Kept ones are also git commits. |
+| `champion/policy.py` | The rule `gate.py` promoted. Identical to `policy.py` at the end of this run. |
+| `results/` | `results/results.md` and `results.json` (the table below), `loop.png` (search trajectory), `test_week.png` (held-out week). |
+| `plot_loop.py`, `plot.py` | Draw `results/loop.png` from the log and `results/test_week.png` from the champion. |
+| `dashboard/` | Next.js dashboard over the same outputs; `dashboard/scripts/build_data.py` reads train only and takes val/test from `results/`. |
+| `data/prices.csv`, `data/SOURCES.md` | The year of prices used here, and other open price APIs (GB imbalance, Germany, NEM, ERCOT) the fetcher can be pointed at. |
+| `context/` | The hack brief, our decision log, and the market, product and workflow research behind the use case. |
+| `PITCH.md`, `presentation/` | Three-minute pitch, numbers and judge Q&A; slide deck. |
 
-Zero dependencies beyond Python 3.12. `uv sync && uv run python baselines.py` reproduces the table below.
+The pipeline has zero dependencies beyond Python 3.12. Plots add matplotlib; the dashboard is Node. `uv sync && uv run python baselines.py` reproduces the train/val/test scores below.
 
 ### The search loop is a black box
 
@@ -101,7 +109,7 @@ On three months the search never saw, the champion earns **£70.64/MW/day agains
 A weekly scheduled job runs the whole cycle: refetch prices, re-run the search on a rolling window, gate on the newest month, and open a pull request containing the new `policy.py` and its report. The quant team reviews the diff (the rule is a few dozen lines of plain Python with no dependencies, which is how dispatch rules are written anyway), shadow-runs the challenger beside live dispatch, then switches.
 
 - **Different asset:** change the spec in `battery.py`.
-- **Different market** (ERCOT, NEM, Germany): change `fetch_prices.py`.
+- **Different market** (ERCOT, NEM, Germany): change `fetch_prices.py`; endpoints for each are listed in [data/SOURCES.md](data/SOURCES.md).
 - **Different search framework:** write a driver that calls `evaluate.py`.
 - **Cost:** evaluation is 0.2 s; the LLM is the only expense, and it is bounded by iteration count.
 
@@ -113,4 +121,10 @@ uv run python fetch_prices.py 2025-10-01 2026-10-15
 uv run python baselines.py
 # run your search loop of choice against policy.py, then
 uv run python gate.py policy.py
+uv run --with matplotlib python plot_loop.py
+uv run --with matplotlib python plot.py
+
+# dashboard
+uv run python dashboard/scripts/build_data.py
+cd dashboard && npm install && npm run dev      # http://localhost:3000
 ```
