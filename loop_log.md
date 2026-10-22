@@ -154,3 +154,15 @@
 | 150 | buy threshold from last 12 h only | 30.25 | no |
 | 151 | local buy window 6 h | 31.91 | no |
 | 152 | discharge look-ahead 5 h | 32.13 | yes (marginal) |
+| 153 | discharge look-ahead 6 h | 32.03 | no |
+| 154 | charge horizon 8 h (new base) | 31.51 | no |
+| 155 | charge horizon 11 h (new base) | 31.75 | no |
+| 156 | discharge slots soc/0.53 (efficiency-aware) | 32.13 | no (no change) |
+| 157 | start trading after 5 days (shorter window while warming up) | 32.02 | no |
+| 158 | charge slot count with 0.474 MWh/slot | 31.99 | no |
+| 159 | sell threshold also >= last-12h q75 | 31.98 | no |
+| 160 | discharge slot rule with <= | 32.03 | no |
+| 161 | also sell when latest beats expected 5 h peak | 31.18 | no |
+| 162 | discharge quantile 0.73 | 32.04 | no |
+| 163 | discharge quantile 0.77 | 31.35 | no |
+| 164 | also charge in the cheapest expected slot of the horizon | 32.28 | yes |
