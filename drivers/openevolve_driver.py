@@ -9,7 +9,6 @@ OpenEvolve's checkpoints, best_policy.py and history.md. Promotion stays with ga
 
 import argparse
 import datetime as dt
-import glob
 import json
 import os
 import sys
@@ -67,21 +66,25 @@ def build_config(yaml_path: str, api_key: str) -> Config:
     return cfg
 
 
-def write_history(run_dir: str) -> None:
-    cps = sorted(glob.glob(os.path.join(run_dir, "checkpoints", "checkpoint_*")),
-                 key=lambda p: int(p.rsplit("_", 1)[-1]))
+def write_history(run_dir: str, seed_score: float) -> None:
+    """One row per evaluated candidate, from OpenEvolve's evolution trace (same shape as loop_log.md)."""
     rows = []
-    if cps:
-        for f in glob.glob(os.path.join(cps[-1], "programs", "*.json")):
-            p = json.load(open(f))
-            rows.append((p.get("iteration_found", 0), (p.get("parent_id") or "seed")[:8],
-                         p.get("metrics", {}).get("combined_score", 0.0)))
+    trace = os.path.join(run_dir, "evolution_trace.jsonl")
+    if os.path.exists(trace):
+        for line in open(trace):
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            idea = (r.get("child_changes_description") or "").strip().splitlines()[:1]
+            rows.append((int(r.get("iteration", 0)), idea[0] if idea else "(no description)",
+                         float((r.get("child_metrics") or {}).get("combined_score", 0.0))))
     rows.sort()
-    best = float("-inf")
-    lines = ["| iter | parent | score | best so far |", "|---|---|---|---|"]
-    for it, parent, score in rows:
+    best = seed_score
+    lines = ["| iter | idea | score | kept? |", "|---|---|---|---|", f"| 0 | seed | {seed_score:.2f} | baseline |"]
+    for it, idea, score in rows:
+        kept = score > best
         best = max(best, score)
-        lines.append(f"| {it} | {parent} | {score:.2f} | {best:.2f} |")
+        lines.append(f"| {it} | {idea.replace('|', '/')} | {score:.2f} | {'yes' if kept else 'no'} |")
     open(os.path.join(run_dir, "history.md"), "w").write("\n".join(lines) + "\n")
 
 
@@ -102,6 +105,12 @@ def main(argv: list[str] | None = None) -> int:
     cfg = build_config(args.config, key)
     run_dir = os.path.join("runs", "openevolve", dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%SZ"))
     os.makedirs(run_dir, exist_ok=True)
+    cfg.evolution_trace.enabled = True
+    cfg.evolution_trace.buffer_size = 1
+    cfg.evolution_trace.include_code = True  # also carries each candidate's change description
+    cfg.evolution_trace.output_path = os.path.join(run_dir, "evolution_trace.jsonl")
+    seed_code = open("policy.py").read()
+    seed_score = score_train("policy.py").metrics["combined_score"]
 
     result = run_evolution(
         initial_program="policy.py",
@@ -112,9 +121,13 @@ def main(argv: list[str] | None = None) -> int:
         cleanup=False,
     )
     open(os.path.join(run_dir, "best_policy.py"), "w").write(result.best_code or "")
-    write_history(run_dir)
+    write_history(run_dir, seed_score)
     print(run_dir)
     print(result.best_score)
+    if (result.best_code or "").strip() == seed_code.strip():
+        print("no candidate beat the seed; best_policy.py is the unchanged seed "
+              "(check the run's logs/ for LLM errors)", file=sys.stderr)
+        return 2
     return 0
 
 
