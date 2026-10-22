@@ -45,7 +45,8 @@ fetch_prices.py ──> data/prices.csv ──> split by time (train / val / tes
 | `champion/policy.py` | The rule `gate.py` promoted. Identical to `policy.py` at the end of this run. |
 | `results/` | `results/results.md` and `results.json` (the table below), `loop.png` (search trajectory), `test_week.png` (held-out week). |
 | `plot_loop.py`, `plot.py` | Draw `results/loop.png` from the log and `results/test_week.png` from the champion. |
-| `dashboard/` | Next.js dashboard over the same outputs; `dashboard/scripts/build_data.py` reads train only and takes val/test from `results/`. |
+| `plot_replay.py` | Builds `results/replay.html`, a standalone step-by-step replay of the search with the rule's code at every kept step, and the dashboard's replay data. |
+| `dashboard/` | Next.js dashboard over the same outputs, with "How it learned" (replay) and "Biggest jumps" pages; `dashboard/scripts/build_data.py` reads train only and takes val/test from `results/`. |
 | `data/prices.csv`, `data/SOURCES.md` | The year of prices used here, and other open price APIs (GB imbalance, Germany, NEM, ERCOT) the fetcher can be pointed at. |
 | `context/` | The hack brief, our decision log, and the market, product and workflow research behind the use case. |
 | `PITCH.md`, `presentation/` | Three-minute pitch, numbers and judge Q&A; slide deck. |

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Autobidder autoresearch",
+  title: "Moonfire: autoresearch for battery dispatch",
   description: "LLM search loop for battery dispatch on GB prices",
 };
 

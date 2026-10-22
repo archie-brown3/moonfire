@@ -15,7 +15,7 @@ import subprocess
 LOG = "loop_log.md"
 OUT = "results/replay.html"
 DASH_OUT = "dashboard/data/replay.json"
-ORACLE_PER_DAY = 64.95  # perfect-foresight LP on the train split, £/MW/day (evaluate.py: oracle / days)
+ORACLE_PER_DAY = 64.95  # perfect-foresight DP optimum on the train split, £/MW/day (evaluate.py: oracle / days)
 TOP_JUMPS = 5
 # Plain-English headline per big jump, written from that iteration's policy.py diff.
 JUMP_NOTES = {
