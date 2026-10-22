@@ -89,15 +89,13 @@ export default function Home() {
     <main className="mx-auto max-w-7xl px-6 py-12 space-y-14 [&_td]:whitespace-normal [&_th]:whitespace-normal [&_td]:align-top">
       <header className="hero-in space-y-6">
         <div className="flex items-baseline justify-between gap-6">
-          <div className="text-sm text-muted-foreground">Moonfire · autoresearch for battery dispatch · GB wholesale, Elexon APX</div>
+          <div className="text-sm font-medium">Moonfire</div>
           <div className="text-sm text-muted-foreground">{last.iter} experiments · {ideaCounts} kept</div>
         </div>
-        <h1 className="hero-claim font-semibold">
-          A dispatch rule that rewrites itself, scored on months it has never seen.
-        </h1>
-        <p className="max-w-[60ch] text-base text-muted-foreground">
-          An agent edits one Python file, a sealed simulator replays it on a year of real half-hourly prices, and a new rule is
-          promoted only when it also wins out of sample. The rule never sees the current price, let alone the future.
+        <h1 className="hero-claim font-semibold">Battery dispatch that improves itself.</h1>
+        <p className="max-w-[52ch] text-base text-muted-foreground">
+          An agent rewrites one trading rule. A sealed simulator scores it on a year of real GB prices. Only rules that win on
+          unseen months are promoted.
         </p>
         <div className="flex flex-wrap items-end gap-x-10 gap-y-4 pt-2">
           <div>
