@@ -44,3 +44,7 @@
 | 41 | 6-hour horizon (HORIZON=12) | 29.01 | yes |
 | 42 | 4-hour horizon (HORIZON=8) | 27.90 | no |
 | 43 | charge rank threshold 0.5 | 29.18 | yes |
+| 44 | charge rank threshold 0.6 | 28.57 | no |
+| 45 | discharge rank threshold 0.65 | 29.09 | no |
+| 46 | discharge rank threshold 0.45 | 29.06 | no |
+| 47 | profile over 3 days (with 6h horizon) | 29.19 | yes (marginal) |

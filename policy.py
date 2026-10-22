@@ -25,15 +25,15 @@ def decide(past_prices, soc, period, weekday):
     lo = window[int(CHARGE_PCT * (LOOKBACK - 1))]
     hi = window[int(DISCHARGE_PCT * (LOOKBACK - 1))]
     # time-of-day filter: expected price for each of the next HORIZON half-hours = mean of the same half-hour over
-    # the past 2 days; rank = where now sits among them (0 = cheapest, 1 = dearest)
+    # the past 3 days; rank = where now sits among them (0 = cheapest, 1 = dearest)
     n = len(past_prices)
-    profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 3)) / 2 for k in range(HORIZON)]
+    profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 4)) / 3 for k in range(HORIZON)]
     rank = sorted(profile).index(profile[0]) / HORIZON
     if latest < 0:  # paid to take power: always charge
         return -1.0
     if latest <= lo and rank < 0.5 and 0.9 * hi - latest > 20:  # spread must cover losses + wear
         return -1.0
-    if latest >= hi and rank > 0.55:
+    if latest >= hi and rank > 0.45:
         return 1.0
     return 0.0
 # EVOLVE-BLOCK-END
