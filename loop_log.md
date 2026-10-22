@@ -211,3 +211,4 @@
 | 207 | also sell if above every recent price at this slot | 32.31 | no |
 | 208 | charge horizon 10.5 h (21) | 32.27 | no |
 | 209 | margin with per-leg efficiency (0.95 each way) | 32.42 | yes |
+| 210 | drop 12 h local buy threshold (cheapest-slot rule covers it) | 32.42 | yes (simplification, same score) |
