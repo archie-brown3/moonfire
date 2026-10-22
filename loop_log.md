@@ -69,3 +69,6 @@
 | 66 | discharge only if dearer slots ahead < soc/0.5+1 | 30.22 | no |
 | 67 | same with +2 allowance | 30.06 | no |
 | 68 | charge only if cheaper slots ahead < half-hours needed to fill + 1 | 30.32 | yes |
+| 69 | charge slot allowance +2 | 30.30 | no |
+| 70 | charge slot allowance +0 | 29.85 | no |
+| 71 | horizon 8 h (16) with slot rule | 30.50 | yes |
