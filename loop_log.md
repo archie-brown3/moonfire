@@ -118,3 +118,5 @@
 | 114 | 3-period smoothing on new base | 30.71 | no |
 | 115 | sell ahead of expected negative prices (never fired) | 31.34 | no (no change) |
 | 116 | margin vs min(hi, expected peak ahead) | 31.52 | yes |
+| 117 | charge quantile 0.25 with capped margin | 31.46 | no |
+| 118 | capped margin 15 | 31.73 | yes |
