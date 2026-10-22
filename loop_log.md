@@ -84,3 +84,6 @@
 | 81 | profile over 4 days | 29.89 | no |
 | 82 | profile over 6 days | 29.52 | no |
 | 83 | recency-weighted 5-day profile | 30.11 | no |
+| 84 | profile from same day-type (weekday/weekend) in past week | 29.64 | no |
+| 85 | discharge rank 0.6 (on top of day-type profile, which commit 8f2dde6 had captured) | 29.80 | no |
+| - | restore best policy from af18c94 after 8f2dde6 captured losing iter-84 variant | 30.50 | restored |
