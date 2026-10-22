@@ -11,7 +11,7 @@ Only the `math` module may be imported.
 import math
 
 # EVOLVE-BLOCK-START
-LOOKBACK = 96          # half-hours of history to rank the latest price against (2 days)
+LOOKBACK = 336         # half-hours of history to rank the latest price against (7 days)
 CHARGE_PCT = 0.20      # charge when the latest price is below this quantile of the lookback
 DISCHARGE_PCT = 0.80   # discharge when above this quantile
 
