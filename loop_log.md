@@ -9,3 +9,4 @@
 | 6 | quantiles 0.15/0.85 | 19.56 | no |
 | 7 | SoC-aware quantile shift (±0.1) | 14.22 | no |
 | 8 | + time-of-day filter (weekly profile rank half-day) | 22.24 | yes |
+| 9 | time-of-day filter tightened to thirds (16/32) | 22.59 | yes |

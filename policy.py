@@ -27,9 +27,9 @@ def decide(past_prices, soc, period, weekday):
     n = len(past_prices)
     profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 8)) / 7 for k in range(48)]
     rank = sorted(profile).index(profile[0])
-    if latest <= lo and rank < 24:
+    if latest <= lo and rank < 16:
         return -1.0
-    if latest >= hi and rank >= 24:
+    if latest >= hi and rank >= 32:
         return 1.0
     return 0.0
 # EVOLVE-BLOCK-END
