@@ -18,3 +18,5 @@
 | 15 | lookback 4 days (192) with filter | 23.19 | no |
 | 16 | lookback 10 days (480) with filter | 22.47 | no |
 | 17 | always charge on negative latest price | 25.12 | yes |
+| 18 | spike override: discharge above 98th pct any time | 24.29 | no |
+| 19 | charge only if 0.9*hi - latest > 20 (spread covers losses) | 25.93 | yes |
