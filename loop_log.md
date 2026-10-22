@@ -170,3 +170,16 @@
 | 166 | also sell at expected peak above q60 | 30.65 | no |
 | 167 | margin cap shifted by today's deviation | 27.24 | no |
 | 168 | charge quantile 0.20 (with cheapest-slot rule) | 32.31 | yes (marginal) |
+| 169 | charge quantile 0.15 | 32.11 | no |
+| 170 | charge only in cheapest expected slot (drop quantile) | 28.48 | no |
+| 171 | profile over 4 days (new base) | 31.41 | no |
+| 172 | profile over 6 days (new base) | 31.20 | no |
+| 173 | sell only when both recent prices >= hi | 31.14 | no |
+| 174 | cheapest-slot rule over next 4 h only | 32.06 | no |
+| 175 | margin scaled with weekly spread | 31.74 | no |
+| 176 | charge slot allowance +1 (new base) | 32.01 | no |
+| 177 | profile with yesterday double-weighted | 31.73 | no |
+| 178 | quantiles from 2-period smoothed series | 32.19 | no |
+| 179 | margin 15 + 5*soc | 31.68 | no |
+| 180 | margin 25 - 5*soc | 30.74 | no |
+| 181 | readability refactor of charge rule (no logic change) | 32.31 | yes (refactor) |
