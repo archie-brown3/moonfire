@@ -26,17 +26,6 @@ export default function Home() {
       <header className="max-w-[65ch] space-y-4">
         <h1 className="text-3xl tracking-tight text-balance">A battery&apos;s earnings come down to one rule</h1>
         <div className="space-y-4 text-base leading-relaxed">
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
-              Britain has 8.5 GW of grid batteries and needs 23 to 27 GW by 2030. Every half hour, a rule decides whether each one charges,
-              discharges or waits.
-            </li>
-            <li>That rule sets the earnings. In September 2026 the average two-hour battery earned £104k per MW a year; the best earned £148k.</li>
-            <li>
-              Quants improve the rule by hand today. We automate that: each new rule is scored against perfect foresight and kept only if it also
-              wins on months the search never saw.
-            </li>
-          </ul>
           <p>
             <Link href="/replay" className="underline underline-offset-4 hover:text-muted-foreground">
               Watch the search improve the rule
