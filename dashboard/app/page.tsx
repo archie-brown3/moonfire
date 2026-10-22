@@ -42,7 +42,7 @@ function Tile({ label, value, sub }: { label: string; value: string; sub?: strin
         <CardDescription className="text-xs">{label}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="num text-4xl font-semibold">{value}</div>
+        <div className="text-2xl tabular-nums">{value}</div>
         {sub ? <div className="text-xs text-muted-foreground mt-1">{sub}</div> : null}
       </CardContent>
     </Card>
@@ -53,8 +53,8 @@ function Section({ title, kicker, children }: { title: string; kicker: string; c
   return (
     <section className="space-y-4">
       <div>
-        <div className="text-sm text-muted-foreground">{kicker}</div>
-        <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
+        <div className="text-xs uppercase tracking-wide text-muted-foreground">{kicker}</div>
+        <h2 className="text-xl">{title}</h2>
       </div>
       {children}
     </section>
@@ -86,50 +86,25 @@ export default function Home() {
   const gapToOracle = (data.oracle_train_per_day - champion.score).toFixed(1);
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-12 space-y-14 [&_td]:whitespace-normal [&_th]:whitespace-normal [&_td]:align-top">
-      <header className="hero-in space-y-6">
-        <div className="flex items-baseline justify-between gap-6">
-          <div className="text-sm font-medium">Moonfire</div>
-          <div className="text-sm text-muted-foreground">{last.iter} experiments · {ideaCounts} kept</div>
-        </div>
-        <h1 className="hero-claim font-semibold">Battery dispatch that improves itself.</h1>
-        <p className="max-w-[52ch] text-base text-muted-foreground">
-          An agent rewrites one trading rule. A sealed simulator scores it on a year of real GB prices. Only rules that win on
-          unseen months are promoted.
-        </p>
-        <div className="flex flex-wrap items-end gap-x-10 gap-y-4 pt-2">
-          <div>
-            <div className="text-sm text-muted-foreground">Seed rule, train</div>
-            <div className="num text-5xl font-semibold text-muted-foreground">£{seed.score}</div>
-          </div>
-          <div className="pb-3 text-3xl text-muted-foreground">→</div>
-          <div>
-            <div className="text-sm text-muted-foreground">After the loop, train £/MW/day</div>
-            <div className="num text-6xl font-semibold text-primary">£{champion.score}</div>
-          </div>
-          <div>
-            <div className="text-sm text-muted-foreground">Held-out test</div>
-            <div className="num text-5xl font-semibold">{results ? `£${results.champion.test.score}` : "pending"}</div>
-            <div className="text-sm text-muted-foreground">{results ? `${results.champion.test.pct_of_oracle}% of perfect foresight` : "gate not yet run"}</div>
-          </div>
+    <main className="mx-auto max-w-7xl px-6 py-10 space-y-12 [&_td]:whitespace-normal [&_th]:whitespace-normal [&_td]:align-top">
+      <header className="space-y-2">
+        <div className="flex items-center gap-3">
+          <h1 className="font-bold text-xl font-mono">Tesla Autobidder</h1>
         </div>
       </header>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Tile label="Of perfect foresight, train" value={`${champion.pct_of_oracle}%`} sub={`seed ${seed.pct_of_oracle}%`} />
-        <Tile label="Uplift vs seed" value={`+${(100 * (champion.score / seed.score - 1)).toFixed(0)}%`} sub={`+£${(champion.score - seed.score).toFixed(1)} per MW-day`} />
-        <Tile label="Battery cycles over train" value={`${champion.cycles}`} sub={`seed ${seed.cycles}; wear is charged inside the simulator`} />
-        <Tile label="Confidence interval, train" value={`£${champion.ci95?.[0]} to £${champion.ci95?.[1]}`} sub="95% bootstrap over days" />
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <Tile label="Champion, train £/MW/day" value={`£${champion.score}`} sub={`CI £${champion.ci95?.[0]} to £${champion.ci95?.[1]}`} />
+        <Tile label="Of perfect foresight" value={`${champion.pct_of_oracle}%`} sub={`seed ${seed.pct_of_oracle}%`} />
+        <Tile label="Uplift vs seed" value={`+${(100 * (champion.score / seed.score - 1)).toFixed(0)}%`} sub={`+£${(champion.score - seed.score).toFixed(1)}`} />
+        <Tile label="Cycles over train" value={`${champion.cycles}`} sub={`seed ${seed.cycles}`} />
+        <Tile label="Loop iterations" value={`${last.iter}`} sub={`${ideaCounts} kept`} />
+        <Tile
+          label="Held-out test"
+          value={results ? `£${results.champion.test.score}` : "pending"}
+          sub={results ? `${results.champion.test.pct_of_oracle}% of oracle` : "gate not run"}
+        />
       </div>
-
-      <dl className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-3 border-y border-border py-4 text-sm">
-        <div><dt className="text-muted-foreground">Data</dt><dd>Elexon BMRS, APX market index, half-hourly</dd></div>
-        <div><dt className="text-muted-foreground">Window</dt><dd className="num">{data.splits.train.range[0]} to {data.splits.test.range[1]}</dd></div>
-        <div><dt className="text-muted-foreground">Splits, by time</dt><dd className="num">train {data.splits.train.days} d · val {data.splits.val.days} d · test {data.splits.test.days} d</dd></div>
-        <div><dt className="text-muted-foreground">Asset</dt><dd className="num">{data.spec.power_mw} MW / {data.spec.capacity_mwh} MWh, {Math.round(data.spec.efficiency * 100)}% round trip, £{data.spec.degradation_gbp_per_mwh}/MWh wear</dd></div>
-        <div><dt className="text-muted-foreground">Policy sees</dt><dd>past prices only; no forecast, no current price</dd></div>
-        <div><dt className="text-muted-foreground">Generated</dt><dd className="num">{data.generated_at.replace("T", " ")} from loop_log.md, evaluate.py, gate.py</dd></div>
-      </dl>
 
       <Section kicker="Research loop" title="Train score by iteration">
         <div className="grid lg:grid-cols-3 gap-4">
@@ -139,7 +114,7 @@ export default function Home() {
               <CardDescription>Gap to perfect foresight: £{gapToOracle}/MW/day</CardDescription>
             </CardHeader>
             <CardContent>
-              <LoopChart data={loop} oracle={data.oracle_train_per_day} seed={seed.score} />
+              <LoopChart data={loop} />
             </CardContent>
           </Card>
           <Card>

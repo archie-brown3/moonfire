@@ -38,20 +38,17 @@ const money = (v: number) => `£${v.toLocaleString("en-GB", { maximumFractionDig
 
 type LoopRow = { iter: number; idea: string; score: number; kept: boolean; best: number };
 
-export function LoopChart({ data, oracle, seed }: { data: LoopRow[]; oracle?: number; seed?: number }) {
+export function LoopChart({ data }: { data: LoopRow[] }) {
   const config = {
     score: { label: "Attempt (train £/MW/day)", theme: C.neutral },
     best: { label: "Best kept", theme: C.champion },
-    oracle: { label: "Perfect foresight", theme: C.oracle },
   } satisfies ChartConfig;
   return (
     <ChartContainer config={config} className="h-72 w-full aspect-auto">
       <ComposedChart data={data} margin={{ left: 0, right: 12, top: 8 }}>
         <CartesianGrid vertical={false} />
-        <XAxis dataKey="iter" tickLine={false} axisLine={false} tickMargin={8} minTickGap={40} label={{ value: "experiment", position: "insideBottomRight", offset: -4, fontSize: 11 }} />
-        <YAxis tickLine={false} axisLine={false} width={40} domain={[0, (max: number) => Math.max(max, oracle ?? 0) * 1.05]} label={{ value: "£/MW/day", angle: -90, position: "insideLeft", fontSize: 11 }} />
-        {oracle ? <ReferenceLine y={oracle} stroke="var(--color-oracle)" strokeDasharray="4 4" label={{ value: `perfect foresight £${oracle.toFixed(0)}`, position: "insideTopRight", fontSize: 11, fill: "var(--color-oracle)" }} /> : null}
-        {seed ? <ReferenceLine y={seed} stroke="var(--muted-foreground)" strokeDasharray="2 4" label={{ value: `seed £${seed.toFixed(1)}`, position: "insideBottomRight", fontSize: 11, fill: "var(--muted-foreground)" }} /> : null}
+        <XAxis hide dataKey="iter" tickLine={false} axisLine={false} tickMargin={8} />
+        <YAxis tickLine={false} axisLine={false} width={36} />
         <ChartTooltip
           content={
             <ChartTooltipContent
