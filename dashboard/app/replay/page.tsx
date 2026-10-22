@@ -17,6 +17,36 @@ export default function ReplayPage() {
           right is the rule at that moment.
         </p>
       </div>
+      <section className="max-w-3xl space-y-2 text-sm leading-relaxed">
+        <h2 className="text-base">The rule, in plain terms</h2>
+        <p>
+          The rule sees only past prices and how full the battery is. Every half
+          hour it does one of three things:
+        </p>
+        <ul className="list-disc space-y-1 pl-5">
+          <li>
+            <strong className="font-medium">Charge</strong> when the price is in
+            the cheapest fifth of the past week, or is the lowest expected in
+            the next 10 hours, and selling later should cover losses and £20/MWh
+            of wear. It holds off if enough cheaper half-hours are coming to
+            fill up then. It always charges when the price is negative.
+          </li>
+          <li>
+            <strong className="font-medium">Discharge</strong> when the price is
+            in the dearest quarter of the past week, unless enough dearer
+            half-hours are expected in the next 4.5 hours to empty the battery
+            then.
+          </li>
+          <li>
+            <strong className="font-medium">Wait</strong> otherwise.
+          </li>
+        </ul>
+        <p className="text-muted-foreground">
+          To guess the coming hours it averages the same half-hours over the
+          past five days. The search started from a simpler rule that compared
+          the price with the last two days and nothing else.
+        </p>
+      </section>
       <Replay data={replay as unknown as ReplayData} />
     </main>
   );
