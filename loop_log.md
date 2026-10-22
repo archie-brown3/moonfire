@@ -100,3 +100,5 @@
 | 96 | horizon 7 h (14) | 29.92 | no |
 | 97 | discharge rank over 6 h ahead (charge still 8 h) | 30.82 | yes |
 | 98 | discharge rank over 4 h ahead | 30.88 | yes |
+| 99 | discharge rank over 3 h ahead | 30.41 | no |
+| 100 | charge horizon 10 h (20) | 31.19 | yes |

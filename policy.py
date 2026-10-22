@@ -14,7 +14,7 @@ import math
 LOOKBACK = 336         # half-hours of history to rank the latest price against (7 days)
 CHARGE_PCT = 0.20      # charge when the latest price is below this quantile of the lookback
 DISCHARGE_PCT = 0.75   # discharge when above this quantile
-HORIZON = 16           # half-hours ahead (8 h) the time-of-day filter looks
+HORIZON = 20           # half-hours ahead (10 h) the time-of-day filter looks
 
 def decide(past_prices, soc, period, weekday):
     if len(past_prices) < LOOKBACK:
