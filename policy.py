@@ -36,7 +36,7 @@ def decide(past_prices, soc, period, weekday):
     pays = min(hi, max(profile)) - latest / 0.9 > 20  # spread to the likely sale price covers losses + wear
     if cheap and pays and cheaper_ahead < room + 2:  # not enough cheaper slots ahead to fill up later
         return -1.0
-    dearer_soon = sum(p > profile[0] for p in profile[:10])  # selling only looks 5 h ahead
+    dearer_soon = sum(p > profile[0] for p in profile[:9])  # selling only looks 4.5 h ahead
     if latest >= hi and dearer_soon < soc / 0.5:  # fewer dearer slots coming than we need to empty
         return 1.0
     return 0.0

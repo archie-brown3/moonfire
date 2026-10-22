@@ -183,3 +183,27 @@
 | 179 | margin 15 + 5*soc | 31.68 | no |
 | 180 | margin 25 - 5*soc | 30.74 | no |
 | 181 | readability refactor of charge rule (no logic change) | 32.31 | yes (refactor) |
+| 182 | margin cap uses 24 h expected peak | 31.00 | no |
+| 183 | margin cap uses 6 h expected peak | 32.13 | no |
+| 184 | also charge on unexpected dip (latest < profile - 30) | 32.31 | no (no change) |
+| 185 | same with £15 | 32.31 | no (no change) |
+| 186 | half-power sell when borderline (dearer < soc/0.5+2) | 32.13 | no |
+| 187 | half-power charge hedge (cheaper_ahead < room+4) | 32.01 | no |
+| 188 | margin on raw latest price | 31.36 | no |
+| 189 | margin on min(latest, expected now) | 28.62 | no |
+| 190 | margin on max(latest, expected now) | 23.69 | no |
+| 191 | local 12h buy quantile 0.3 | 32.14 | no |
+| 192 | local 12h buy quantile 0.1 | 32.35 | no (+0.04 noise; adds a magic number) |
+| 193 | lookback 14 days (new base) | 30.33 | no |
+| 194 | lookback 5 days (new base) | 30.36 | no |
+| 195 | smoothing 0.4/0.6 | 32.13 | no |
+| 196 | SoC-dependent sell quantile (0.75 - 0.05*(soc-1)) | 32.13 | no |
+| 197 | SoC-dependent sell quantile (0.75 + 0.05*(soc-1)) | 31.04 | no |
+| 198 | charge allowance room*1.5 | 31.94 | no |
+| 199 | cap expected sale price at q70 | 31.74 | no |
+| 200 | MPC: 24 h DP over SoC on latest + 5-day profile | 23.29 | no |
+| 201 | MPC with decaying level shift (0.8^k) | 27.48 | no |
+| 202 | MPC + level shift + £5 action hurdle | 21.29 | no |
+| 203 | dearer_soon vs max(expected now, latest) | 31.23 | no |
+| 204 | cheaper_ahead vs min(expected now, latest) | 26.87 | no |
+| 205 | discharge look-ahead 4.5 h (9) | 32.33 | yes (marginal) |
