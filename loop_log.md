@@ -231,3 +231,9 @@
 | 227 | count cheaper slots only before expected peak | 29.45 | no |
 | 228 | sell only if worth more than refilling at expected min | 29.01 | no |
 | 229 | cap at second-highest expected price | 32.31 | no |
+| 230 | never sell in the cheapest expected slot | 32.42 | no (no change) |
+| 231 | smoothing weights 2-1-1 over last 3 | 31.37 | no |
+| 232 | profile smoothed over adjacent half-hours (lagged pair) | 30.92 | no |
+| 233 | profile shifted one slot later (k+1) | 31.35 | no |
+| 234 | profile shifted one slot earlier (k-1) | 30.67 | no |
+| 235 | comment/whitespace tidy (no logic change) | 32.42 | yes (refactor) |
