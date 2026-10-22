@@ -72,3 +72,15 @@
 | 69 | charge slot allowance +2 | 30.30 | no |
 | 70 | charge slot allowance +0 | 29.85 | no |
 | 71 | horizon 8 h (16) with slot rule | 30.50 | yes |
+| 72 | horizon 10 h (20) | 29.87 | no |
+| 73 | SoC-aware discharge slot rule on 8h base | 30.45 | no |
+| 74 | charge quantile 0.3 with slot rule | 29.87 | no |
+| 75 | discharge when 0.9*latest - lo > 20 | 25.70 | no |
+| 76 | discharge quantile 0.80 | 29.31 | no |
+| 77 | also sell when latest >= max expected ahead | 29.47 | no |
+| 78 | also charge when latest <= min expected ahead | 29.95 | no |
+| 79 | lookback 6 days (288) | 30.07 | no |
+| 80 | lookback 8 days (384) | 28.88 | no |
+| 81 | profile over 4 days | 29.89 | no |
+| 82 | profile over 6 days | 29.52 | no |
+| 83 | recency-weighted 5-day profile | 30.11 | no |
