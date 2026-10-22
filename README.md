@@ -102,3 +102,16 @@ uv run python baselines.py
 # run your search loop of choice against policy.py, then
 uv run python gate.py policy.py
 ```
+
+## Drivers
+
+The search loop is pluggable. `drivers/openevolve_driver.py` runs [OpenEvolve](https://github.com/algorithmicsuperintelligence/openevolve) 0.4.0 as a library against the same `evaluate.py`, on the train split only.
+
+```bash
+uv sync --group evolve                      # OpenEvolve lives in an optional group; the pipeline itself has no deps
+uv run --group evolve python drivers/openevolve_driver.py --iterations 50
+```
+
+It reads `GEMINI_API_KEY` from `.env` (Gemini via its OpenAI-compatible endpoint; `drivers/openevolve.yaml` sets the models and search settings) and writes `runs/openevolve/<timestamp>/` with `best_policy.py`, `history.md` and OpenEvolve's checkpoints. Edits are diff-based and confined to the `EVOLVE-BLOCK` in `policy.py`; `program.md` is the system prompt. The driver never promotes: run `gate.py` on the emitted `best_policy.py`.
+
+Smoke run, 2026-10-22, 3 iterations with `gemini-3.8-flash` + `gemini-4-argon`: seed 32.42 → best 32.86 £/MW/day on train (50.6% of oracle), about 20–40 s per iteration.

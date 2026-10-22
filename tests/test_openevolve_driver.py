@@ -32,3 +32,12 @@ def test_build_config_sets_key_and_guards():
 def test_main_without_key_exits_one(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     assert drv.main(["--iterations", "1"]) == 1
+
+
+def test_score_train_is_self_contained():
+    # OpenEvolve writes the evaluator's source into a temp module; it must run with no module globals.
+    import inspect
+    ns = {}
+    exec(inspect.getsource(drv.score_train), ns)
+    r = ns["score_train"]("policy.py")
+    assert r.metrics["combined_score"] > 0

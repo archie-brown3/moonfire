@@ -18,12 +18,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-import evaluate  # noqa: E402  (repo-root module; scores a policy file on one split)
 from openevolve import run_evolution  # noqa: E402
 from openevolve.config import Config  # noqa: E402
-from openevolve.evaluation_result import EvaluationResult  # noqa: E402
-
-TRAIN_SPLIT = "train"
 
 
 def load_env(path: str = ".env") -> dict[str, str]:
@@ -39,8 +35,19 @@ def load_env(path: str = ".env") -> dict[str, str]:
     return env
 
 
-def score_train(path: str) -> EvaluationResult:
-    r = evaluate.evaluate(path, TRAIN_SPLIT)
+def score_train(path):
+    # Self-contained on purpose: OpenEvolve copies this function's source into a temp module,
+    # so it cannot rely on module globals or imports. It runs from the repo root.
+    import os
+    import sys
+
+    root = os.getcwd()
+    if root not in sys.path:
+        sys.path.insert(0, root)
+    import evaluate  # scores a policy file on one split
+    from openevolve.evaluation_result import EvaluationResult
+
+    r = evaluate.evaluate(path, "train")
     error = r.get("error") or ""
     score = 0.0 if error else float(r["score"])
     metrics = {
