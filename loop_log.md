@@ -148,3 +148,9 @@
 | 144 | charge quantile 0.25 | 31.92 | yes |
 | 145 | charge quantile 0.30 | 31.66 | no |
 | 146 | margin 20 (new base) | 32.10 | yes |
+| 147 | margin 25 | 29.88 | no |
+| 148 | charge quantile 0.30 (margin 20) | 31.83 | no |
+| 149 | margin 18 | 32.03 | no |
+| 150 | buy threshold from last 12 h only | 30.25 | no |
+| 151 | local buy window 6 h | 31.91 | no |
+| 152 | discharge look-ahead 5 h | 32.13 | yes (marginal) |
