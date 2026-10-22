@@ -40,3 +40,4 @@
 | 37 | charge quantile 0.25 | 26.82 | no |
 | 38 | charge quantile 0.15 | 26.59 | no |
 | 39 | rank now within next 12h of profile (not whole day) | 28.20 | yes |
+| 40 | 8-hour horizon (HORIZON=16) for time-of-day rank | 28.39 | yes |

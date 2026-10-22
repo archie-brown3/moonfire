@@ -14,6 +14,7 @@ import math
 LOOKBACK = 336         # half-hours of history to rank the latest price against (7 days)
 CHARGE_PCT = 0.20      # charge when the latest price is below this quantile of the lookback
 DISCHARGE_PCT = 0.75   # discharge when above this quantile
+HORIZON = 16           # half-hours ahead (8 h) the time-of-day filter looks
 
 
 def decide(past_prices, soc, period, weekday):
@@ -23,11 +24,11 @@ def decide(past_prices, soc, period, weekday):
     latest = (past_prices[-1] + past_prices[-2]) / 2  # smooth out single-period noise
     lo = window[int(CHARGE_PCT * (LOOKBACK - 1))]
     hi = window[int(DISCHARGE_PCT * (LOOKBACK - 1))]
-    # time-of-day filter: expected price for each of the next 12 hours = mean of the same half-hour over
+    # time-of-day filter: expected price for each of the next HORIZON half-hours = mean of the same half-hour over
     # the past 2 days; rank = where now sits among them (0 = cheapest, 1 = dearest)
     n = len(past_prices)
-    profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 3)) / 2 for k in range(24)]
-    rank = sorted(profile).index(profile[0]) / 24
+    profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 3)) / 2 for k in range(HORIZON)]
+    rank = sorted(profile).index(profile[0]) / HORIZON
     if latest < 0:  # paid to take power: always charge
         return -1.0
     if latest <= lo and rank < 0.4 and 0.9 * hi - latest > 20:  # spread must cover losses + wear
