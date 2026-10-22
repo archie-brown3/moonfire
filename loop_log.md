@@ -240,3 +240,14 @@
 | 236 | delay sale while price climbs > £20/half-hour | 31.93 | no |
 | 237 | don't buy into a sharp rise | 32.42 | no (no change) |
 | 238 | wait for expected negative prices before buying | 32.32 | no |
+| 239 | sell threshold from last 5 days | 30.33 | no |
+| 240 | buy threshold from last 10 days | 31.73 | no |
+| 241 | top-up when nearly empty (soc<0.5, cheaper_ahead<3) | 32.08 | no |
+| 242 | keep last 0.5 MWh for spikes above q90 | 30.41 | no |
+| 243 | guard: never sell below wear cost (latest*0.95 > 10) | 32.42 | no (no change on winter train; candidate safety guard) |
+| 244 | weekend: one extra charge slot allowance | 32.23 | no |
+| 245 | weekend: one fewer charge slot allowance | 32.43 | no (+0.01 noise; adds a rule) |
+| 246 | weekend: sell look-ahead 6 h | 32.43 | no (+0.01 noise; adds a rule) |
+| 247 | charge quantile 0.22 | 32.37 | no |
+| 248 | margin cap from profile slice after cheaper slots | 32.42 | no (no change) |
+| 249 | negative-price rule only when not full | 32.42 | no (no change) |
