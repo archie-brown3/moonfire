@@ -48,3 +48,4 @@
 | 45 | discharge rank threshold 0.65 | 29.09 | no |
 | 46 | discharge rank threshold 0.45 | 29.06 | no |
 | 47 | profile over 3 days (with 6h horizon) | 29.19 | yes (marginal) |
+| 48 | profile over 5 days | 29.86 | yes |
