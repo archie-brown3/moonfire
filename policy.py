@@ -30,7 +30,9 @@ def decide(past_prices, soc, period, weekday):
     rank = sorted(profile).index(profile[0]) / HORIZON
     if latest < 0:  # paid to take power: always charge
         return -1.0
-    if latest <= lo and rank < 0.5 and 0.9 * hi - latest > 20:  # spread must cover losses + wear
+    cheaper_ahead = sum(p < profile[0] for p in profile)
+    room = (2 - soc) / 0.5  # half-hours of charging needed to fill
+    if latest <= lo and cheaper_ahead < room + 1 and 0.9 * hi - latest > 20:  # spread must cover losses + wear
         return -1.0
     if latest >= hi and rank > 0.55:
         return 1.0

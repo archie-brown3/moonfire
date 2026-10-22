@@ -51,3 +51,21 @@
 | 48 | profile over 5 days | 29.86 | yes |
 | 49 | profile over 7 days | 29.34 | no |
 | 50 | discharge rank back to 0.55 (with 5-day profile) | 30.23 | yes |
+| 51 | also sell in dearest expected slot ahead if above median | 28.30 | no |
+| 52 | lookback 5 days (240) | 28.41 | no |
+| 53 | lookback 10 days (480) | 27.31 | no |
+| 54 | half-power discharge tier above 65th pct | 29.41 | no |
+| 55 | half-power charge tier below 30th pct | 29.77 | no |
+| 56 | margin vs expected peak ahead (max profile) | 29.71 | no |
+| 57 | spread margin 25 | 27.93 | no |
+| 58 | spread margin 17 | 30.05 | no |
+| 59 | sit out weekends | 22.22 | no |
+| 60 | smoothing weights 0.6/0.4 | 29.99 | no |
+| 61 | forecast = smoothed latest + 0.5 x usual move (5-day) | 29.78 | no |
+| 62 | hysteresis: continue run until median (stateful) | 30.21 | no |
+| 63 | median instead of mean profile | 29.69 | no |
+| 64 | horizon 7 h (14) | 30.18 | no |
+| 65 | horizon 5 h (10) | 29.85 | no |
+| 66 | discharge only if dearer slots ahead < soc/0.5+1 | 30.22 | no |
+| 67 | same with +2 allowance | 30.06 | no |
+| 68 | charge only if cheaper slots ahead < half-hours needed to fill + 1 | 30.32 | yes |
