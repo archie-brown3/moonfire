@@ -8,9 +8,16 @@ Entry for the Moonfire Ventures Hack (Cambridge Compute Co. · AIDDA). Brief: [c
 
 Grid batteries earn money by buying power when it is cheap and selling it when it is dear. Every half hour the dispatch rule decides: charge, discharge, or wait, knowing only past prices. The quality of that rule is the whole business.
 
-We are the **optimiser firm** in this scenario: the company that runs dispatch for battery owners under a revenue share, the way Tesla Autobidder, Octopus Kraken Flex, Habitat Energy and Flexitricity do in GB. An optimiser's margin is the gap between what its rule captures and what a rival's would. GB has several GW of batteries, each MW earning tens of thousands of pounds a year; a few percentage points more captured value across a fleet is direct margin, and it is also the number optimisers compete on when pitching asset owners.
+We are the **optimiser firm** in this scenario: the company that runs dispatch for battery owners under a revenue share, floor or toll, the way Tesla Autobidder, Octopus Kraken Flex, Habitat Energy, Flexitricity and EDF PowerShift do in GB. An optimiser's margin is the gap between what its rule captures and what a rival's would.
 
-Today that rule is improved by analysts: tweak, backtest, compare, repeat. This pipeline runs that loop continuously, with the held-out discipline an analyst is supposed to keep and often skips under time pressure.
+The numbers (sources in [context/research/](context/research/)):
+
+- GB has **8.5 GW / 14.4 GWh** of batteries (Modo, Q3 2026), heading for 20+ GW by 2029 and a NESO need of 23–27 GW by 2030.
+- The Modo GB index hit **£99k/MW/year in September 2026**, with wholesale arbitrage a record **£68k** of it, the highest wholesale share ever. Arbitrage is now the main revenue stream, which is what our policy trades.
+- The best asset earned **~42% more than the index** that month, and Modo attributes the spread between optimisers mainly to trading strategy, not cycling harder. Fleet-wide, each percentage point of capture is worth ~£5.5m/year.
+- The industry metric is **Percentage of Perfect (PoP)**: realised revenue over the perfect-foresight maximum. Observed optimisers land at **60–80%**; no vendor publishes a reproducible figure, and Modo notes that each picks its own benchmark or its best backtest. A fixed evaluator with a walk-forward split and a held-out test window is the credible version of that pitch.
+
+Today the rule is improved by humans: a daily expert review at Fluence, trading desks at Habitat and EDF, operator-set parameters at Tesla. Job ads at Habitat, Entrix, YUSO and Axpo all describe the same step: "build backtesting and parameter-optimisation pipelines." Nobody describes an automated loop that rewrites the dispatch rule and is gated out of sample. That is the step this pipeline automates.
 
 ## The pipeline
 
@@ -44,7 +51,7 @@ The loop only needs to do two things: edit `policy.py`, and run `uv run python e
 ## The evaluator
 
 **Headline:** net revenue in £/MW/day over the window, with a 95% bootstrap confidence interval over days.
-**Secondary:** % of the perfect-foresight optimum.
+**Secondary:** Percentage of Perfect (PoP), the industry's name for revenue over the perfect-foresight optimum.
 
 - **The ceiling is exact.** With 1 MW and half-hour steps, stored energy moves in 0.5 MWh units, so a five-state dynamic programme over the window gives the best any policy could do knowing every future price. It runs in a millisecond.
 - **Why £/MW/day leads.** "% of perfect foresight" scales with volatility, not skill: a calm month has a tiny denominator and bad trades can push it negative. The later windows here were two to three times more volatile than train, so both numbers are shown.
@@ -67,7 +74,9 @@ The loop only needs to do two things: edit `policy.py`, and run `uv run python e
 - **Regime shift.** Train is Oct 2025–May 2026; test is Aug–Oct 2026. Gas, wind and interconnector conditions differ. A train gain that fails on test is reported, not hidden.
 - **Single market.** The model trades the realised market index only. Real operators also run day-ahead, frequency response and the Balancing Mechanism, and use forecast feeds. Absolute £ here is a floor, not a forecast.
 - **Market impact** is assumed zero at 1 MW.
-- **One year of data** is one price regime.
+- **One year of data** is one price regime. Practitioners re-tune control parameters at least quarterly (WattClarity); that is why deployment re-runs the search on a schedule.
+- **Degradation.** We charge a flat £10/MWh of throughput. Practitioners report that ageing costs change the answer a lot (DFKI), and warranty throughput limits are cumulative; a richer cost model slots into `battery.py` without touching the loop.
+- **Search overfits backtests.** This is the documented failure of LLM-evolved trading strategies (MadEvolve, arXiv 2605.23007, assesses p-hacking; the EV-dispatch LLM-evolution paper had no held-out split). The val gate and the once-only test read are our answer, and the results table shows the train/test gap rather than hiding it.
 
 ## Results
 
