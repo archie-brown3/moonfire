@@ -212,3 +212,22 @@
 | 208 | charge horizon 10.5 h (21) | 32.27 | no |
 | 209 | margin with per-leg efficiency (0.95 each way) | 32.42 | yes |
 | 210 | drop 12 h local buy threshold (cheapest-slot rule covers it) | 32.42 | yes (simplification, same score) |
+| 211 | charge quantile 0.25 (simplified base) | 32.34 | no |
+| 212 | charge quantile 0.15 (simplified base) | 31.83 | no |
+| 213 | remove negative-price rule (simplified base) | 32.38 | no (kept: matters more in summer) |
+| 214 | sell only if spread over buy threshold pays | 28.89 | no |
+| 215 | trimmed-mean profile | 31.08 | no |
+| 216 | margin 21 | 32.10 | no |
+| 217 | margin 19 | 32.24 | no |
+| 218 | discharge quantile 0.74 | 32.11 | no |
+| 219 | discharge quantile 0.76 | 32.25 | no |
+| 220 | median gate on cheapest-slot rule | 32.42 | no (no change) |
+| 221 | latest = median of last 3 | 31.36 | no |
+| 222 | skip charging when soc >= 1.95 | 32.41 | no |
+| 223 | discharge slot count rounded up ((soc+0.25)/0.5) | 32.18 | no |
+| 224 | charge room rounded up ((2.25-soc)/0.5) | 32.37 | no |
+| 225 | full battery sells if refill cheaper within 3 h pays | 32.23 | no |
+| 226 | dearer count excludes current slot | 32.42 | no (no change) |
+| 227 | count cheaper slots only before expected peak | 29.45 | no |
+| 228 | sell only if worth more than refilling at expected min | 29.01 | no |
+| 229 | cap at second-highest expected price | 32.31 | no |
