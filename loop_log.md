@@ -237,3 +237,6 @@
 | 233 | profile shifted one slot later (k+1) | 31.35 | no |
 | 234 | profile shifted one slot earlier (k-1) | 30.67 | no |
 | 235 | comment/whitespace tidy (no logic change) | 32.42 | yes (refactor) |
+| 236 | delay sale while price climbs > £20/half-hour | 31.93 | no |
+| 237 | don't buy into a sharp rise | 32.42 | no (no change) |
+| 238 | wait for expected negative prices before buying | 32.32 | no |
