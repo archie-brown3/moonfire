@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+data/returns.npy
+data/prices.npy
+data/tickers.txt
+evaluator/splits.json
