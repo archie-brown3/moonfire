@@ -20,3 +20,8 @@
 | 17 | always charge on negative latest price | 25.12 | yes |
 | 18 | spike override: discharge above 98th pct any time | 24.29 | no |
 | 19 | charge only if 0.9*hi - latest > 20 (spread covers losses) | 25.93 | yes |
+| 20 | spread margin 30 | 24.47 | no |
+| 21 | spread margin 15 | 25.54 | no |
+| 22 | charge quantile 0.3 with margin | 25.12 | no |
+| 23 | discharge quantile 0.85 | 23.39 | no |
+| 24 | discharge quantile 0.75 | 26.03 | yes |
