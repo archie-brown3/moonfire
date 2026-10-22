@@ -166,3 +166,7 @@
 | 162 | discharge quantile 0.73 | 32.04 | no |
 | 163 | discharge quantile 0.77 | 31.35 | no |
 | 164 | also charge in the cheapest expected slot of the horizon | 32.28 | yes |
+| 165 | charge in cheapest two expected slots | 32.05 | no |
+| 166 | also sell at expected peak above q60 | 30.65 | no |
+| 167 | margin cap shifted by today's deviation | 27.24 | no |
+| 168 | charge quantile 0.20 (with cheapest-slot rule) | 32.31 | yes (marginal) |
