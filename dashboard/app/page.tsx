@@ -42,7 +42,7 @@ function Tile({ label, value, sub }: { label: string; value: string; sub?: strin
         <CardDescription className="text-xs">{label}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl tabular-nums">{value}</div>
+        <div className="num text-4xl font-semibold">{value}</div>
         {sub ? <div className="text-xs text-muted-foreground mt-1">{sub}</div> : null}
       </CardContent>
     </Card>
@@ -53,8 +53,8 @@ function Section({ title, kicker, children }: { title: string; kicker: string; c
   return (
     <section className="space-y-4">
       <div>
-        <div className="text-xs uppercase tracking-wide text-muted-foreground">{kicker}</div>
-        <h2 className="text-xl">{title}</h2>
+        <div className="text-sm text-muted-foreground">{kicker}</div>
+        <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
       </div>
       {children}
     </section>
@@ -86,24 +86,42 @@ export default function Home() {
   const gapToOracle = (data.oracle_train_per_day - champion.score).toFixed(1);
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-10 space-y-12 [&_td]:whitespace-normal [&_th]:whitespace-normal [&_td]:align-top">
-      <header className="space-y-2">
-        <div className="flex items-center gap-3">
-          <h1 className="font-bold text-xl font-mono">Tesla Autobidder</h1>
+    <main className="mx-auto max-w-7xl px-6 py-12 space-y-14 [&_td]:whitespace-normal [&_th]:whitespace-normal [&_td]:align-top">
+      <header className="hero-in space-y-6">
+        <div className="flex items-baseline justify-between gap-6">
+          <div className="text-sm text-muted-foreground">Moonfire · autoresearch for battery dispatch · GB wholesale, Elexon APX</div>
+          <div className="text-sm text-muted-foreground">{last.iter} experiments · {ideaCounts} kept</div>
+        </div>
+        <h1 className="hero-claim font-semibold">
+          A dispatch rule that rewrites itself, scored on months it has never seen.
+        </h1>
+        <p className="max-w-[60ch] text-base text-muted-foreground">
+          An agent edits one Python file, a sealed simulator replays it on a year of real half-hourly prices, and a new rule is
+          promoted only when it also wins out of sample. The rule never sees the current price, let alone the future.
+        </p>
+        <div className="flex flex-wrap items-end gap-x-10 gap-y-4 pt-2">
+          <div>
+            <div className="text-sm text-muted-foreground">Seed rule, train</div>
+            <div className="num text-5xl font-semibold text-muted-foreground">£{seed.score}</div>
+          </div>
+          <div className="pb-3 text-3xl text-muted-foreground">→</div>
+          <div>
+            <div className="text-sm text-muted-foreground">After the loop, train £/MW/day</div>
+            <div className="num text-6xl font-semibold text-primary">£{champion.score}</div>
+          </div>
+          <div>
+            <div className="text-sm text-muted-foreground">Held-out test</div>
+            <div className="num text-5xl font-semibold">{results ? `£${results.champion.test.score}` : "pending"}</div>
+            <div className="text-sm text-muted-foreground">{results ? `${results.champion.test.pct_of_oracle}% of perfect foresight` : "gate not yet run"}</div>
+          </div>
         </div>
       </header>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <Tile label="Champion, train £/MW/day" value={`£${champion.score}`} sub={`CI £${champion.ci95?.[0]} to £${champion.ci95?.[1]}`} />
-        <Tile label="Of perfect foresight" value={`${champion.pct_of_oracle}%`} sub={`seed ${seed.pct_of_oracle}%`} />
-        <Tile label="Uplift vs seed" value={`+${(100 * (champion.score / seed.score - 1)).toFixed(0)}%`} sub={`+£${(champion.score - seed.score).toFixed(1)}`} />
-        <Tile label="Cycles over train" value={`${champion.cycles}`} sub={`seed ${seed.cycles}`} />
-        <Tile label="Loop iterations" value={`${last.iter}`} sub={`${ideaCounts} kept`} />
-        <Tile
-          label="Held-out test"
-          value={results ? `£${results.champion.test.score}` : "pending"}
-          sub={results ? `${results.champion.test.pct_of_oracle}% of oracle` : "gate not run"}
-        />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <Tile label="Of perfect foresight, train" value={`${champion.pct_of_oracle}%`} sub={`seed ${seed.pct_of_oracle}%`} />
+        <Tile label="Uplift vs seed" value={`+${(100 * (champion.score / seed.score - 1)).toFixed(0)}%`} sub={`+£${(champion.score - seed.score).toFixed(1)} per MW-day`} />
+        <Tile label="Battery cycles over train" value={`${champion.cycles}`} sub={`seed ${seed.cycles}; wear is charged inside the simulator`} />
+        <Tile label="Confidence interval, train" value={`£${champion.ci95?.[0]} to £${champion.ci95?.[1]}`} sub="95% bootstrap over days" />
       </div>
 
       <Section kicker="Research loop" title="Train score by iteration">
