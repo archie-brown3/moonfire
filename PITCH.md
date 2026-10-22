@@ -22,11 +22,11 @@ And a new rule is promoted only if it also wins on two months the search never s
 
 **The result (30 s)**
 
-Show the results table.
+*(On screen: the results table.)*
 
 The seed rule earned £15 per megawatt per day on the training months. The loop took it to £32. On the held-out test window it went from £55 to £71, at 46% of perfect foresight. The industry calls that Percentage of Perfect. Optimisers quote 60 to 80, but every vendor picks its own benchmark. Ours is a five-line dynamic programme anyone can run.
 
-Show the test week plot. This is a week it never trained on. Green is where it charged, red where it sold. It bought the overnight trough and sold the evening peak without being told either exists.
+*(On screen: the test week plot.)* This is a week it never trained on. Green is where it charged, red where it sold. It bought the overnight trough and sold the evening peak without being told either exists.
 
 **Deployment (20 s)**
 
