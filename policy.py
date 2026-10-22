@@ -23,9 +23,9 @@ def decide(past_prices, soc, period, weekday):
     latest = past_prices[-1]
     lo = window[int(CHARGE_PCT * (LOOKBACK - 1))]
     hi = window[int(DISCHARGE_PCT * (LOOKBACK - 1))]
-    # time-of-day filter: this half-hour's mean price over the past 3 days, ranked within the day
+    # time-of-day filter: this half-hour's mean price over the past 2 days, ranked within the day
     n = len(past_prices)
-    profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 4)) / 3 for k in range(48)]
+    profile = [sum(past_prices[n - 48 * d + k] for d in range(1, 3)) / 2 for k in range(48)]
     rank = sorted(profile).index(profile[0])
     if latest <= lo and rank < 16:
         return -1.0

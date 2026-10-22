@@ -13,3 +13,4 @@
 | 10 | quantiles 0.3/0.7 with filter | 20.03 | no |
 | 11 | blend forecast 0.7 latest + 0.3 profile | 21.60 | no |
 | 12 | profile over 3 days instead of 7 | 24.01 | yes |
+| 13 | profile over 2 days | 24.12 | yes |
