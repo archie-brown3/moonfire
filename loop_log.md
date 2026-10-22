@@ -92,3 +92,10 @@
 | 88 | discharge on max(smoothed, raw) price | 30.41 | no |
 | 89 | charge on min(smoothed, raw) price | 30.12 | no |
 | 90 | margin as hi - latest/0.9 > 20 | 30.63 | yes |
+| 91 | margin 25 | 29.74 | no |
+| 92 | margin 15 | 30.49 | no |
+| 93 | sell threshold from last 3 days only | 28.31 | no |
+| 94 | buy threshold from last 3 days only | 29.78 | no |
+| 95 | horizon 9 h (18) | 30.00 | no |
+| 96 | horizon 7 h (14) | 29.92 | no |
+| 97 | discharge rank over 6 h ahead (charge still 8 h) | 30.82 | yes |
